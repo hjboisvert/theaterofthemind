@@ -1,0 +1,14 @@
+[{
+    "raw_width": 1024,
+    "raw_height": 768,
+    "scale_factor": 0.5,
+    "video_src_1": "videotestsrc",
+    "video_src_2": "videotestsrc",
+    "audio_src": "audiotestsrc",
+    "video_encoding": "x264enc tune=zerolatency bitrate=16384 cabac=true dct8x8=true speed-preset=veryfast ! video/x-h264, profile=high",
+    "audio_encoding": "volume volume=0.5 ! audioconvert ! audio/x-raw, rate=48000, channels=2 ! opusenc",
+    "video_sink_1": "rtph264pay ! queue ! udpsink host=192.168.0.255 port=5000",
+    "video_sink_2": "rtph264pay ! queue ! udpsink host=192.168.0.255 port=5005",
+    "audio_sink": "rtpopuspay ! udpsink host=192.168.0.255 port=5001",
+    "ip_address": "127.0.0.1"
+}]

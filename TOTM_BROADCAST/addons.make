@@ -1,0 +1,2 @@
+ofxGStreamer
+ofxOsc
