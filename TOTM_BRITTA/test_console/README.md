@@ -5,7 +5,7 @@ This directory contains a Max/MSP patch and bundled Windows runtime for testing 
 
 `TotM Britta Test Console.maxpat` is the original, editable patch, which requires Max/MSP to be installed.
 
-[TotM Britta Test Console.zip](https://drive.google.com/file/d/1LnZckVGHMxvZCmQQ0vepBXj6vLpTqgNC/view?usp=sharing) contains an exe file and includes Max/MSP runtimes, so it can be run standalone on any Windows computer. The contents of this zip directory are read-only.
+[TotM Britta Test Console.zip](https://drive.google.com/file/d/1LnZckVGHMxvZCmQQ0vepBXj6vLpTqgNC/view?usp=sharing) contains an exe file and includes Max/MSP runtimes, so it can be run standalone on any Windows computer. The contents of this zip directory are read-only. Due to github file size limits, this resource is linked to Google Drive. In the event the link is broken, the standalone executable can be regenerated using Max/MSP.
 
 Be sure to allow the software through the Windows firewall, which may prompt for access at start.
 
