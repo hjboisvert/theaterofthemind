@@ -1,0 +1,15 @@
+
+[Unit]
+Description=TotM OSC Server
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/slowimmediate/scripts/osc_server.py
+WorkingDirectory=/home/slowimmediate/TotM-Chair/scripts
+StandardOutput=inherit
+StandardError=inherit
+User=slowimmediate
+
+[Install]
+WantedBy=multi-user.target
