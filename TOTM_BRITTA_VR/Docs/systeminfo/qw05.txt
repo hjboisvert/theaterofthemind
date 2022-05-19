@@ -1,0 +1,53 @@
+Host Name:                 DESKTOP-QTCN3OQ
+OS Name:                   Microsoft Windows 10 Home
+OS Version:                10.0.19044 N/A Build 19044
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          qw05
+Registered Organization:
+Product ID:                00325-81408-23117-AAOEM
+Original Install Date:     4/4/2022, 1:24:38 PM
+System Boot Time:          5/10/2022, 12:26:26 PM
+System Manufacturer:       Micro-Star International Co., Ltd.
+System Model:              H310 Gaming Trident3 (MS-B920)
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 158 Stepping 13 GenuineIntel ~3000 Mhz
+BIOS Version:              American Megatrends Inc. 9.30, 4/30/2019
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              N/A
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     16,314 MB
+Available Physical Memory: 13,160 MB
+Virtual Memory: Max Size:  52,942 MB
+Virtual Memory: Available: 48,152 MB
+Virtual Memory: In Use:    4,790 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\DESKTOP-QTCN3OQ
+Hotfix(s):                 7 Hotfix(s) Installed.
+                           [01]: KB5012157
+                           [02]: KB4562830
+                           [03]: KB5003791
+                           [04]: KB5007401
+                           [05]: KB5012599
+                           [06]: KB5011352
+                           [07]: KB5011651
+Network Card(s):           2 NIC(s) Installed.
+                           [01]: Intel(R) Dual Band Wireless-AC 3168
+                                 Connection Name: Wi-Fi
+                                 Status:          Media disconnected
+                           [02]: Intel(R) Ethernet Connection (2) I219-V
+                                 Connection Name: Ethernet
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 192.168.2.6
+                                 [02]: fe80::2d4f:6092:917e:a70f
+Hyper-V Requirements:      VM Monitor Mode Extensions: Yes
+                           Virtualization Enabled In Firmware: Yes
+                           Second Level Address Translation: Yes
+                           Data Execution Prevention Available: Yes

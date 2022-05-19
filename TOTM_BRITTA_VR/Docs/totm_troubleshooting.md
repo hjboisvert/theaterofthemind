@@ -41,6 +41,7 @@ to be repeated.
         If broadcast PC looks OK, check that the VR PC is on the right network and
 		* WIFI is turned off
 		* The wired LAN connection is using the “private”, or trusted, profile
+        * Check that gstreamer bin folder is in the system PATH env variable (see [PC setup guide](./totm_pc_setup.md))
 
         If none of the above fixes it, close TOTM_VR and launch it         manually to see if a Windows Defender window appears.
 
@@ -61,6 +62,15 @@ to be repeated.
     * **Cause**: pm2 is either not installed or was installed incorrectly. Most likely the “-g” flag was left out when running the install command.
 
     * **Solution:** Open a cmd window and run “npm install -g pm2”
+
+<br>
+
+* TOTM_VR is stuck in a loop where it closes a few seconds after opening and then reopens
+
+    * **Cause**: Windows Security is blocking the app because it is launched by a script. Note: I only saw this happen on a PC that had been wiped and had a fresh windows install.
+
+    * **Solution**: Open windows security center from the task bar or main settings window, go to App and Browser Control and uncheck all options under Reputation-based protection.
+    If that doesn't work, check `pm2.config.js` and make sure it is launching the latest version of TOTM_VR
 
 <br>
 
@@ -105,4 +115,13 @@ to be repeated.
     * **Cause**: The camera overheated
 
     * **Solution**: Make sure that the fans are on. The cameras should never overheat with the fans running
+
+<br><br>
+
+---
+
+Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
+
+Last updated: May 17, 2022
+
 

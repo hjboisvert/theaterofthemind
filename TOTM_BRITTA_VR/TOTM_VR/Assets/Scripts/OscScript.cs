@@ -7,6 +7,7 @@ using OscJack;
 public class OscScript : MonoBehaviour
 {
     public int heartbeatInterval = 1; // seconds
+    public string broadcasterIpAddress = "192.168.2.255";
     private OscServer server;
     private OscClient client;
     private DateTime lastHeartbeatTime;
@@ -45,8 +46,9 @@ public class OscScript : MonoBehaviour
     	server = new OscServer(8000);
     	// server.MessageDispatcher.AddCallback("/cmd", CmdMsgCallback);
         server.MessageDispatcher.AddCallback("/cmd", this.CmdMsgCallback);
-        
-        client = new OscClient("192.168.2.255", 9000);
+
+        Debug.Log("Sending heartbeats to " + broadcasterIpAddress);
+        client = new OscClient(broadcasterIpAddress, 9000);
 
         lastHeartbeatTime = DateTime.Now;
     }
@@ -118,16 +120,17 @@ public class OscScript : MonoBehaviour
         }
 
         TimeSpan interval = DateTime.Now - lastHeartbeatTime;
-        if (interval.Seconds >= heartbeatInterval)
+        if (client == null || interval.Seconds < heartbeatInterval)
         {
-            sendHeartbeat();
-            lastHeartbeatTime = DateTime.Now;
+            return;
         }
+        sendHeartbeat();
+        lastHeartbeatTime = DateTime.Now;
     }
 
     void sendHeartbeat()
     {
-        //Debug.Log("Sending heartbeat");
+        // Debug.Log("Sending heartbeat");
         int status = networkPlayer.GetHeartBeatStatus();
         client.Send("/heartbeat", oscId, status);
     }

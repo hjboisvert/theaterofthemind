@@ -7,9 +7,10 @@
         },
         "broadcast_addr": "192.168.2.255",
         "cameras": {
-            "left_camera_index": 0,
-            "right_camera_index": 1
+            "left_camera_index": 1,
+            "right_camera_index": 0
         },
+        "current_pipeline_name": "HI_Q_LO_REZ",
         "osc_commands": {
             "blinkclosed": "/blinkclosed",
             "blinkopen": "/blinkopen",
@@ -281,7 +282,47 @@
                     "right. ! clocksync ! videorate ! video/x-raw,width=3840,height=2160,framerate=30/1,format=NV12 ! queue max-size-bytes=0 ! videocrop top=0 left=-1 right=-1 bottom=0 ! video/x-raw,width=2160,height=2160 ! ",
                     "glupload ! queue max-size-bytes=0 ! glcolorconvert ! glcolorbalance brightness=-0.0 ! glcolorscale ! video/x-raw(memory:GLMemory),width=2048,height=2048 ! mix.  ",
                     "mix. ! video/x-raw(memory:GLMemory),multiview-mode=side-by-side, framerate=30/1 ! queue max-size-bytes=0 ! ",
-                    "tee name=previewTee ! gldownload ! queue max-size-bytes=0 ! video/x-raw ! nvh265enc preset=low-latency-hq rc-mode=cbr qos=true bitrate=11600 ! video/x-h265,alignment=au,stream-format=byte-stream,profile=main ! queue max-size-bytes=0 ! h265parse config-interval=-1 !  rtph265pay aggregate-mode=max ! ",
+                    "tee name=previewTee ! gldownload ! queue max-size-bytes=0  ! video/x-raw ! nvh265enc rc-mode=vbr const-quality=24 gop-size=15 rc-lookahead=20 ! video/x-h265,alignment=au,stream-format=byte-stream,profile=main ! queue max-size-bytes=0 ! h265parse config-interval=-1 !  rtph265pay aggregate-mode=max ! ",
+                    "application/x-rtp,media=video,encoding-name=H265,payload=96,clock-rate=90000 ! rtpbin.send_rtp_sink_0 rtpbin.send_rtp_src_0 ! udpsink host=192.168.0.255 port=5000 ",
+                    "rtpbin.send_rtcp_src_0 ! udpsink host=192.168.0.255 port=5001 sync=false async=false ",
+                    "wasapisrc <audio_device_id> do-timestamp=true ! volume volume=0.8 ! queue ! audioconvert ! audio/x-raw, rate=48000, channels=2 ! audioconvert ! audioresample ! opusenc ! rtpopuspay ! application/x-rtp,media=audio,encoding-name=OPUS,clock-rate=48000,payload=96 ! ",
+                    "rtpbin.send_rtp_sink_1 rtpbin.send_rtp_src_1 ! udpsink host=192.168.0.255 port=7000 ",
+                    "rtpbin.send_rtcp_src_1 ! udpsink host=192.168.0.255 port=7001 sync=false async=false ",
+                    "previewTee. ! queue max-size-bytes=0 max-size-time=0 max-size-buffers=0 ! "
+                ],
+                "show_preview": true
+            },
+            {
+                "name": "HI_Q_LO_REZ",
+                "pipeline_array": [
+                    "rtpbin name=rtpbin ",
+                    "glstereomix name=mix ",
+                    "left. ! clocksync ! videorate ! video/x-raw,width=3840,height=2160,framerate=30/1,format=NV12 ! queue max-size-bytes=0 ! videocrop top=0 left=-1 right=-1 bottom=0 ! video/x-raw,width=2160,height=2160 ! ",
+                    "glupload ! queue max-size-bytes=0 ! glcolorconvert ! glcolorbalance brightness=-0.0 ! glcolorscale ! video/x-raw(memory:GLMemory),width=1600,height=1600 ! mix.  ",
+                    "right. ! clocksync ! videorate ! video/x-raw,width=3840,height=2160,framerate=30/1,format=NV12 ! queue max-size-bytes=0 ! videocrop top=0 left=-1 right=-1 bottom=0 ! video/x-raw,width=2160,height=2160 ! ",
+                    "glupload ! queue max-size-bytes=0 ! glcolorconvert ! glcolorbalance brightness=-0.0 ! glcolorscale ! video/x-raw(memory:GLMemory),width=1600,height=1600 ! mix.  ",
+                    "mix. ! video/x-raw(memory:GLMemory),multiview-mode=side-by-side, framerate=30/1, width=3200, height=1600 ! queue max-size-bytes=0 ! ",
+                    "tee name=previewTee ! gldownload ! queue max-size-bytes=0  ! video/x-raw ! nvh265enc rc-mode=vbr const-quality=29 ! video/x-h265,width=3200,height=1600,profile=main ! queue max-size-bytes=0 ! rtph265pay config-interval=-1 ! ",
+                    "application/x-rtp,media=video,encoding-name=H265,payload=96,clock-rate=90000 ! rtpbin.send_rtp_sink_0 rtpbin.send_rtp_src_0 ! udpsink host=192.168.0.255 port=5000 ",
+                    "rtpbin.send_rtcp_src_0 ! udpsink host=192.168.0.255 port=5001 sync=false async=false ",
+                    "wasapisrc <audio_device_id> do-timestamp=true ! volume volume=0.8 ! queue ! audioconvert ! audio/x-raw, rate=48000, channels=2 ! audioconvert ! audioresample ! opusenc ! rtpopuspay ! application/x-rtp,media=audio,encoding-name=OPUS,clock-rate=48000,payload=96 ! ",
+                    "rtpbin.send_rtp_sink_1 rtpbin.send_rtp_src_1 ! udpsink host=192.168.0.255 port=7000 ",
+                    "rtpbin.send_rtcp_src_1 ! udpsink host=192.168.0.255 port=7001 sync=false async=false ",
+                    "previewTee. ! queue max-size-bytes=0 max-size-time=0 max-size-buffers=0 ! "
+                ],
+                "show_preview": true
+            },
+            {
+                "name": "HQLR_RTX",
+                "pipeline_array": [
+                    "rtpbin name=rtpbin ",
+                    "glstereomix name=mix ",
+                    "left. ! clocksync ! videorate ! video/x-raw,width=3840,height=2160,framerate=30/1,format=NV12 ! queue max-size-bytes=0 ! videocrop top=0 left=-1 right=-1 bottom=0 ! video/x-raw,width=2160,height=2160 ! ",
+                    "glupload !  queue max-size-bytes=0 ! glcolorconvert ! glcolorbalance brightness=-0.0 ! glcolorscale ! video/x-raw(memory:GLMemory),width=1600,height=1600 ! mix.  ",
+                    "right. ! clocksync ! videorate ! video/x-raw,width=3840,height=2160,framerate=30/1,format=NV12 ! queue max-size-bytes=0 ! videocrop top=0 left=-1 right=-1 bottom=0 ! video/x-raw,width=2160,height=2160 ! ",
+                    "glupload ! queue max-size-bytes=0 ! glcolorconvert ! glcolorbalance brightness=-0.0 ! glcolorscale ! video/x-raw(memory:GLMemory),width=1600,height=1600 ! mix.  ",
+                    "mix. ! video/x-raw(memory:GLMemory),multiview-mode=side-by-side, framerate=30/1, width=3200, height=1600 ! queue max-size-bytes=0 ! ",
+                    "tee name=previewTee ! gldownload ! queue max-size-bytes=0  ! video/x-raw ! nvh265enc rc-mode=vbr const-quality=24 gop-size=15 rc-lookahead=20 ! video/x-h265,width=3200,height=1600,alignment=au,stream-format=byte-stream,profile=main ! queue max-size-bytes=0 ! h265parse !  rtph265pay config-interval=-1 ! ",
                     "application/x-rtp,media=video,encoding-name=H265,payload=96,clock-rate=90000 ! rtpbin.send_rtp_sink_0 rtpbin.send_rtp_src_0 ! udpsink host=192.168.0.255 port=5000 ",
                     "rtpbin.send_rtcp_src_0 ! udpsink host=192.168.0.255 port=5001 sync=false async=false ",
                     "wasapisrc <audio_device_id> do-timestamp=true ! volume volume=0.8 ! queue ! audioconvert ! audio/x-raw, rate=48000, channels=2 ! audioconvert ! audioresample ! opusenc ! rtpopuspay ! application/x-rtp,media=audio,encoding-name=OPUS,clock-rate=48000,payload=96 ! ",

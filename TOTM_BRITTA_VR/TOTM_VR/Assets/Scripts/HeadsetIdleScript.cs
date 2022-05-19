@@ -15,6 +15,7 @@ public class HeadsetIdleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (vrManager.isUserPresent && !XRSettings.enabled)
         {
             Debug.Log("HeadsetIdleScript: Enable VR");
@@ -25,16 +26,22 @@ public class HeadsetIdleScript : MonoBehaviour
             Debug.Log("HeadsetIdleScript: Disable VR");
             StartCoroutine(DisableVR());
         }
+
     }
+
 
     IEnumerator EnableVR()
     {
+
         XRSettings.enabled = true;
         yield return null; // wait one frame
     }
 
+
+
     IEnumerator DisableVR()
     {
+
         XRSettings.LoadDeviceByName("");
         yield return null; // wait one frame
         XRSettings.enabled = false;
@@ -42,4 +49,5 @@ public class HeadsetIdleScript : MonoBehaviour
         XRSettings.LoadDeviceByName("Oculus");
         yield return null; // wait one frame
     }
+
 }

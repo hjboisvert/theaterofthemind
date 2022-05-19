@@ -1,12 +1,8 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
-the Utilities SDK except in compliance with the License, which is provided at the time of installation
-or download, or which otherwise accompanies this software in either electronic or hard copy form.
-
-You may obtain a copy of the License at
-https://developer.oculus.com/licenses/utilities-1.31
+Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
+https://developer.oculus.com/licenses/oculussdk/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -111,13 +107,16 @@ public class OVRDebugInfo : MonoBehaviour
             InitUIComponents();
         }
 
+		//todo: enable for Unity Input System
+#if ENABLE_LEGACY_INPUT_MANAGER
         if (Input.GetKeyDown(KeyCode.Space) && riftPresentTimeout < 0.0f)
         {
             initUIComponent = true;
             showVRVars ^= true;
         }
+#endif
 
-        UpdateDeviceDetection();
+		UpdateDeviceDetection();
 
         // Presenting VR variables
         if (showVRVars)
@@ -139,9 +138,9 @@ public class OVRDebugInfo : MonoBehaviour
     {
         isInited = false;
     }
-    #endregion
+#endregion
 
-    #region Private Functions
+#region Private Functions
     /// <summary>
     /// Initialize UI GameObjects
     /// </summary>
@@ -324,9 +323,9 @@ public class OVRDebugInfo : MonoBehaviour
 
         return GO;
     }
-    #endregion
+#endregion
 
-    #region Debugging variables handler
+#region Debugging variables handler
     /// <summary>
     /// Updates the IPD.
     /// </summary>
@@ -358,11 +357,7 @@ public class OVRDebugInfo : MonoBehaviour
     /// </summary>
     void UpdateFOV()
     {
-#if UNITY_2017_2_OR_NEWER
         OVRDisplay.EyeRenderDesc eyeDesc = OVRManager.display.GetEyeRenderDesc(UnityEngine.XR.XRNode.LeftEye);
-#else
-		OVRDisplay.EyeRenderDesc eyeDesc = OVRManager.display.GetEyeRenderDesc(UnityEngine.VR.VRNode.LeftEye);
-#endif
         strFOV = System.String.Format("FOV (deg): {0:F3}", eyeDesc.fov.y);
     }
 
@@ -371,17 +366,10 @@ public class OVRDebugInfo : MonoBehaviour
     /// </summary>
     void UpdateResolutionEyeTexture()
     {
-#if UNITY_2017_2_OR_NEWER
 		OVRDisplay.EyeRenderDesc leftEyeDesc = OVRManager.display.GetEyeRenderDesc(UnityEngine.XR.XRNode.LeftEye);
 		OVRDisplay.EyeRenderDesc rightEyeDesc = OVRManager.display.GetEyeRenderDesc(UnityEngine.XR.XRNode.RightEye);
 
 		float scale = UnityEngine.XR.XRSettings.renderViewportScale;
-#else
-		OVRDisplay.EyeRenderDesc leftEyeDesc = OVRManager.display.GetEyeRenderDesc(UnityEngine.VR.VRNode.LeftEye);
-		OVRDisplay.EyeRenderDesc rightEyeDesc = OVRManager.display.GetEyeRenderDesc(UnityEngine.VR.VRNode.RightEye);
-
-		float scale = UnityEngine.VR.VRSettings.renderViewportScale;
-#endif
         float w = (int)(scale * (float)(leftEyeDesc.resolution.x + rightEyeDesc.resolution.x));
         float h = (int)(scale * (float)Mathf.Max(leftEyeDesc.resolution.y, rightEyeDesc.resolution.y));
 
@@ -429,5 +417,5 @@ public class OVRDebugInfo : MonoBehaviour
             frames = 0;
         }
     }
-    #endregion
+#endregion
 }

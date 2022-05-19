@@ -1,12 +1,8 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
-the Utilities SDK except in compliance with the License, which is provided at the time of installation
-or download, or which otherwise accompanies this software in either electronic or hard copy form.
-
-You may obtain a copy of the License at
-https://developer.oculus.com/licenses/utilities-1.31
+Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
+https://developer.oculus.com/licenses/oculussdk/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -14,7 +10,7 @@ ANY KIND, either express or implied. See the License for the specific language g
 permissions and limitations under the License.
 ************************************************************************************/
 
-#if USING_XR_MANAGEMENT && USING_XR_SDK_OCULUS
+#if USING_XR_MANAGEMENT && (USING_XR_SDK_OCULUS || USING_XR_SDK_OPENXR)
 #define USING_XR_SDK
 #endif
 
@@ -22,14 +18,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-#if UNITY_2017_2_OR_NEWER
-using InputTracking = UnityEngine.XR.InputTracking;
+using UnityEngine.XR;
 using Node = UnityEngine.XR.XRNode;
-#else
-using InputTracking = UnityEngine.VR.InputTracking;
-using Node = UnityEngine.VR.VRNode;
-#endif
 
 /// <summary>
 /// A head-tracked stereoscopic virtual reality camera rig.
@@ -91,7 +81,8 @@ public class OVRCameraRig : MonoBehaviour
 	public bool usePerEyeCameras = false;
 	/// <summary>
 	/// If true, all tracked anchors are updated in FixedUpdate instead of Update to favor physics fidelity.
-	/// \note: If the fixed update rate doesn't match the rendering framerate (OVRManager.display.appFramerate), the anchors will visibly judder.
+	/// \note: This will cause visible judder unless you tick exactly once per frame using a custom physics
+	/// update, because you'll be sampling the position at different times into each frame.
 	/// </summary>
 	public bool useFixedUpdateForTracking = false;
 	/// <summary>
@@ -272,6 +263,20 @@ public class OVRCameraRig : MonoBehaviour
 			leftControllerAnchor.localRotation = leftOffsetPose.orientation;
 		}
 
+#if USING_XR_SDK
+#if UNITY_2020_3_OR_NEWER
+		if (OVRManager.instance.LateLatching)
+		{
+			XRDisplaySubsystem displaySubsystem = OVRManager.GetCurrentDisplaySubsystem();
+			if (displaySubsystem != null)
+			{
+				displaySubsystem.MarkTransformLateLatched(centerEyeAnchor.transform, XRDisplaySubsystem.LateLatchNode.Head);
+				displaySubsystem.MarkTransformLateLatched(leftHandAnchor, XRDisplaySubsystem.LateLatchNode.LeftHand);
+				displaySubsystem.MarkTransformLateLatched(rightHandAnchor, XRDisplaySubsystem.LateLatchNode.RightHand);
+			}
+		}
+#endif
+#endif
 		RaiseUpdatedAnchorsEvent();
 	}
 

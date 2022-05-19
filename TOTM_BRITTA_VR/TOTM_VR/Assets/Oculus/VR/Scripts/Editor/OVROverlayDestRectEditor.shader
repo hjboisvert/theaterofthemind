@@ -1,3 +1,15 @@
+/************************************************************************************
+Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
+
+Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
+https://developer.oculus.com/licenses/oculussdk/
+
+Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
+under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
+ANY KIND, either express or implied. See the License for the specific language governing
+permissions and limitations under the License.
+************************************************************************************/
+
 Shader "Unlit/OVROverlayDestRectEditor"
 {
 	Properties
@@ -110,8 +122,8 @@ Shader "Unlit/OVROverlayDestRectEditor"
 			fixed4 frag (v2f i) : SV_Target
 			{
 				float isLeftEye = i.uv < 0.5;
-				float2 leftUV = float2(i.uv.x * (256.0 + 32.0) / 128.0, 1 - i.uv.y);
-				float2 rightUV = float2(1 - ((1 - i.uv.x) * (256.0 + 32.0) / 128.0), 1 - i.uv.y);
+				float2 leftUV = float2(i.uv.x * (256.0 + 32.0) / 128.0, i.uv.y);
+				float2 rightUV = float2(1 - ((1 - i.uv.x) * (256.0 + 32.0) / 128.0), i.uv.y);
 
 				float2 uv = i.uv;
 				float2 textureUV = i.uv;

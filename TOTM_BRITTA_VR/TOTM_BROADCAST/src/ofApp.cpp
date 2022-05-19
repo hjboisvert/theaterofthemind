@@ -13,12 +13,7 @@ void ofApp::setup(){
 	broadcastAddr = "127.0.0.1"; // fallback in case not set in config.json
 
 	// find pipeline with this name in the config and build it
-    // string pipelineName = "265_full_many_thread";
-	// pipelineConfigName = "265_full_combined_preview";
-	//pipelineConfigName = "rtpbin_265_mpegts_separate_audio";
-	//pipelineConfigName = "265_mpegts";
-	// pipelineConfigName = "NO_TS";
-	pipelineConfigName = "CLOCKSYNC";
+	pipelineConfigName = "gst_test_src";
 
     ofFile file(CONFIG_FILENAME);
     if (file.exists()) {
@@ -26,6 +21,7 @@ void ofApp::setup(){
 		file.close();
 
 		// STREAM PIPELINE CONFIG
+		pipelineConfigName = jsonConfig[0]["current_pipeline_name"].get<std::string>();
 		broadcastAddr = jsonConfig[0]["broadcast_addr"].get<std::string>();
 		leftCamIndex = jsonConfig[0]["cameras"]["left_camera_index"].get<int>();
 		rightCamIndex = jsonConfig[0]["cameras"]["right_camera_index"].get<int>();
@@ -109,6 +105,7 @@ string ofApp::buildPipelineString(string pipelineConfigName) {
     for (auto& pipeConfig : jsonConfig[0]["pipelines"]) {
         if (pipeConfig["name"].get<std::string>() == pipelineConfigName) {
 			bFoundPipelineConfig = true;
+			ofLog() << "Starting pipeline config named " << pipelineConfigName << endl;
 			pipelineString += "ksvideosrc device-index=" + to_string(leftCamIndex) + " blocksize=" + to_string(camBlockSize) + "  name=left  ";
 			pipelineString += "ksvideosrc device-index=" + to_string(rightCamIndex) + " blocksize=" + to_string(camBlockSize) + "  name=right  ";
 
@@ -217,6 +214,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::updateReceiverStatus(int id, int status) {
+	bool bSendFadeState = false; // whether we need to broadcast fade state
     int index = -1;
     for (int i = 0; i < statusVector.size(); i++) {
         StatusInfo status = statusVector.at(i);
@@ -227,13 +225,36 @@ void ofApp::updateReceiverStatus(int id, int status) {
     }
 	bool bUpStatus = true;
     bool bRecvStatus = status == 1 ? true : false;
-    if (index >= 0) {
+    if (index >= 0) { // known client
+		if (!get<1>(statusVector[index])) { // this client is back after going down
+			bSendFadeState = true;
+		}
 		get<1>(statusVector[index]) = bUpStatus;
         get<2>(statusVector[index]) = bRecvStatus;
 		get<3>(statusVector[index]) = ofGetUnixTime();
-    } else {
+    } else { // first heartbeat from this client
+		bSendFadeState = true;
         statusVector.emplace_back(to_string(id), bUpStatus, bRecvStatus, ofGetUnixTime());
+		// keep sorted
+		sort(statusVector.begin(), statusVector.end(), [](StatusInfo &s1, StatusInfo &s2) {
+			// convert to int, otherwise 11 comes before 2
+			return (stoi(get<0>(s1)) - stoi(get<0>(s2))) < 0;
+		});
     }
+
+	if (bSendFadeState) {
+		sendFadeState();
+	}
+}
+
+//--------------------------------------------------------------
+void ofApp::sendFadeState() {
+	// broadcast current fade state whenever there is new client, incl ones that have gone down and back up
+	if (bFadeout) {
+		sendFadeout();
+	} else {
+		sendFadein();
+	}
 }
 
 //--------------------------------------------------------------
@@ -266,6 +287,8 @@ void ofApp::draw() {
 	}
 
 	drawKeyControlGuide();
+
+	drawFadeState();
 
 	ofPopStyle();
 }
@@ -308,6 +331,19 @@ void ofApp::drawKeyControlGuide() {
 	string controlsText = "R: Recenter \tF: Fade \tB: Blink \tC: Swap Cameras";
 	font.drawString(controlsText, ofGetWidth()/2 - font.stringWidth(controlsText)/2,
 		ofGetHeight() * 0.08);
+}
+
+//--------------------------------------------------------------
+void ofApp::drawFadeState() {
+	string fadeText = "Fade Out: FALSE";
+
+	if (bFadeout) {
+		fadeText = "Fade Out: TRUE";
+	}
+
+	ofSetColor(ofColor::magenta);
+	font.drawString(fadeText, ofGetWidth()/2 - font.stringWidth(fadeText)/2,
+		ofGetHeight() - ofGetHeight() * 0.1);
 }
 
 //--------------------------------------------------------------
@@ -496,6 +532,6 @@ void ofApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo){ 
+void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }

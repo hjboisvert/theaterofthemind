@@ -1,14 +1,16 @@
 # TOTM
-Receiver and sender for Theatre of the Mind
+Receiver and sender for Theater of the Mind VR experience
 
-Builds of the VR and Broadcast apps are located in [this drive folder](https://drive.google.com/drive/u/0/folders/1dsR9xWBy9kd1wz5Q31z7uZpQgBnVH3Va).
+The TOTM.zip file, containing the latest builds of the VR and BROADCAST apps as well as the installers for all dependencies,
+is located in [this drive folder](https://drive.google.com/drive/folders/1eEnmkPB91Y5Vo2imYkLwD9W3qooDah3d?usp=sharing).
 
-For on-location (not dev) installation and setup of the VR and Broadcast PCs, see [this doc](Docs/totm_pc_setup.md) then follow the cable connections and startup sections below.
+For on-location (not dev) installation and setup of the VR and BROADCAST PCs, see [this doc](Docs/totm_pc_setup.md) then follow the cable connections and startup sections below.
 
 For troubleshooting, see [this doc](Docs/totm_troubleshooting.md).
 
-Both apps are developed and tested on Windows 10. We are using the same PC model \[[Link](https://www.msi.com/Desktop/Trident-3)\] for both apps.
-Detailed system info can be found [here](Docs/pc_systeminfo.md)
+Both apps are developed and tested on Windows 10 version 21H2. Windows updates have caused previous builds of TOTM_VR to stop working.
+We are using the same PC model \[[Link](https://www.msi.com/Desktop/Trident-3)\] for both apps.
+Detailed system info for each of the PCs can be found [here](Docs/systeminfo/)
 
 ## TOTM_VR
 Unity VR app that displays stereoscopic dome projection from two live wide-angle video streams
@@ -17,25 +19,27 @@ Unity VR app that displays stereoscopic dome projection from two live wide-angle
  * [Oculus Rift S](https://www.oculus.com/rift-s/?locale=en_US)
 
 #### Software
- * [Unity 2019.4.27f1](https://store.unity.com/download?ref=personal)
- * [Oculus Rift Software](https://www.oculus.com/rift/setup/?locale=en_US)
- * [Gstreamer v1.18.4](https://gstreamer.freedesktop.org/download/) (runtime and development files)
- * [Unity Gstreamer Plugin](https://github.com/mrayy/mrayGStreamerUnity)
- * [OSCJack for Unity](https://github.com/keijiro/OscJack)
- * [Unity Oculus Integration Package](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022)
- * [Unity Eye Blink Effect Package](https://assetstore.unity.com/packages/tools/particles-effects/eye-blink-effect-fps-vr-61275)
+ * Windows 10 version 21H2
+ * [Unity 2021.3.1f1](https://store.unity.com/download?ref=personal)
+ * [Oculus Rift Software v39.0.0.65.369](https://www.oculus.com/rift/setup/?locale=en_US)
+ * [Gstreamer v1.18.6](https://gstreamer.freedesktop.org/download/) (runtime and development files)
+ * [Unity Gstreamer Plugin, commit 37845d](https://github.com/mrayy/mrayGStreamerUnity/tree/37845d2bc874758f33350242a9c6755488ccc1d7)
+ * [OSCJack for Unity v0.1.4](https://github.com/keijiro/OscJack/tree/v0.1.4)
+ * [Unity Oculus Integration Package v39.0](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022#releases)
+ * [Unity Eye Blink Effect Package v1.0](https://assetstore.unity.com/packages/tools/particles-effects/eye-blink-effect-fps-vr-61275#releases)
 
 ## TOTM_BROADCAST
-openframeworks app that receives live video from two cameras wired to the PC, live audio from a microphone, and then broadcasts to local network over RTP
+openframeworks app that receives live video from two cameras wired to the PC, live audio from a microphone, and then broadcasts to local network over RTP (and RTCP for receivers to get necessary media and stream info)
 
 #### Hardware
  * 2x [Kodak Pixpro SP360 4K](https://kodakpixpro.com/cameras/360-vr/sp360-4k)
  * 2x [Elgato Cam Link 4K](https://www.elgato.com/en/gaming/cam-link-4k)
 
 #### Software
- * [Openframeworks v0.11.0](https://openframeworks.cc/download/) for Visual Studio
-   * with [gstreamer addon](https://github.com/arturoc/ofxGStreamer)
- * [Visual Studio Community 2017](https://visualstudio.microsoft.com/vs/older-downloads/)
+ * Windows 10 version 21H2
+ * [Openframeworks v0.10.1](https://openframeworks.cc/download/) for Visual Studio. (note: v0.11.0 has also been tested)
+   * with [ofxGStreamer addon, commit fb1109](https://github.com/arturoc/ofxGStreamer/tree/fb1109f995168bcb1d673724d97ba7931772945d)
+ * [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/older-downloads/)
    * Openframeworks addon
 
 ## Cable Connections
@@ -77,11 +81,13 @@ Manual start:
 * **Media**
   * Audio and Video are streamed from Broadcast to VR PCs using RTP over the network broadcast address
 * **Control**
-  * Controls are sent from Broadcast to VR PCs using OSC
-    * `/recenter` tells all VR apps to recenter the view when users are facing forward
-    * `/fadeout` and `/fadein` trigger a fade to or from black within VR respectively
-    * `/blinkclosed` and `/blinkopen` trigger an eye closing or opening effect within VR respectively
-  * Additionally the VR PCs periodically send a `/heartbeat` message back to Broadcast to give their status
+  * Controls are sent from Broadcast to VR PCs using OSC, also via broadcast address
+  * VR PCs listen to channel "/cmd" on port 8000
+  * Possible string args:
+    * `recenter` tells all VR apps to recenter the view when users are facing forward
+    * `fadeout` and `fadein` trigger a fade to or from black within VR respectively
+    * `blinkclosed` and `blinkopen` trigger an eye closing or opening effect within VR respectively
+  * Additionally the VR PCs periodically send a `/heartbeat` message back to Broadcast on port 9000 to give their status
 
 
 ## Keyboard Controls
@@ -205,6 +211,19 @@ Things we will likely want to alter or tweak in the future
 * Blink Curved.shader (eye open / eye closed effects. Used by BlinkEffect component, change parameters in BlinkEffect.cs if needed)
 
 
+## Possible Improvements
+* May want something other than black screen when users put on headset before fading in. Possibly floating image asset of the poster in Britta's room
+* Try adjusting Y-axis rotation of eye cameras in VR to see what effect this has on doubling and near/far focus.
+* Have TOTM_VR listen for parameters from BROADCAST. Have BROADCAST send params when a new client sends first heartbeat. Could add sliders in ofx app for some of these.
+  * Network buffer time
+  * Video dimensions (for scaling)
+  * Fadein / fadeout time
+  * Camera height (and maybe rotation)
+  * Fisheye K value
+  * Periphery mask width / height
+
+
+
 ## Misc Links
 * [Big dev doc](https://docs.google.com/document/d/1dYk7BQNIYa2w9gIE8wetXxKf6VH5tuNBUVAaHY0cm_c) covering May - July 2021
 * [Article](https://cloud.google.com/architecture/gpu-accelerated-streaming-using-webrtc#gstreamer_pipeline) on live streaming with gpu-accelerated gstreamer. I based parameters for the nvidia gpu encoder on the ones used here
@@ -214,3 +233,12 @@ Things we will likely want to alter or tweak in the future
 * [gstreamer tuning](https://developer.ridgerun.com/wiki/index.php/Embedded_GStreamer_Performance_Tuning)
 * [gstreamer tutorials](https://gstreamer.freedesktop.org/documentation/tutorials/index.html?gi-language=c)
 * [oculus debug tool](https://developer.oculus.com/documentation/native/pc/dg-debug-tool/?device=RIFT)
+
+<br><br>
+
+---
+
+Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
+
+Last updated: May 19, 2022
+

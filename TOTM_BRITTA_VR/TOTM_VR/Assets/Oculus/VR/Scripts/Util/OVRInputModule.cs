@@ -1,12 +1,8 @@
 /************************************************************************************
 Copyright : Copyright (c) Facebook Technologies, LLC and its affiliates. All rights reserved.
 
-Licensed under the Oculus Utilities SDK License Version 1.31 (the "License"); you may not use
-the Utilities SDK except in compliance with the License, which is provided at the time of installation
-or download, or which otherwise accompanies this software in either electronic or hard copy form.
-
-You may obtain a copy of the License at
-https://developer.oculus.com/licenses/utilities-1.31
+Your use of this SDK or tool is subject to the Oculus SDK License Agreement, available at
+https://developer.oculus.com/licenses/oculussdk/
 
 Unless required by applicable law or agreed to in writing, the Utilities SDK distributed
 under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
@@ -47,14 +43,12 @@ namespace UnityEngine.EventSystems
         public float rightStickDeadZone = 0.15f;
 
         [Header("Touchpad Swipe Scroll")]
-        [Tooltip("Enable scrolling by swiping the GearVR touchpad")]
+        [Tooltip("Enable scrolling by swiping the touchpad")]
         public bool useSwipeScroll = true;
         [Tooltip("Minimum trackpad movement in pixels to start swiping")]
         public float swipeDragThreshold = 2;
         [Tooltip("Distance scrolled when swipe scroll occurs")]
         public float swipeDragScale = 1f;
-        /* It's debatable which way left and right are on the Gear VR touchpad since it's facing away from you
-         * the following bool allows this to be swapped*/
         [Tooltip("Invert X axis on touchpad")]
         public bool InvertSwipeXAxis = false;
 
@@ -67,7 +61,7 @@ namespace UnityEngine.EventSystems
         public float angleDragThreshold = 1;
 
         [SerializeField]
-        private float m_SpherecastRadius = 1.0f;       
+        private float m_SpherecastRadius = 1.0f;
 
 
 
@@ -184,8 +178,10 @@ namespace UnityEngine.EventSystems
 
         public override void UpdateModule()
         {
+#if ENABLE_LEGACY_INPUT_MANAGER
             m_LastMousePosition = m_MousePosition;
             m_MousePosition = Input.mousePosition;
+#endif
         }
 
         public override bool IsModuleSupported()
@@ -201,6 +197,7 @@ namespace UnityEngine.EventSystems
             if (!base.ShouldActivateModule())
                 return false;
 
+#if ENABLE_LEGACY_INPUT_MANAGER
             var shouldActivate = Input.GetButtonDown(m_SubmitButton);
             shouldActivate |= Input.GetButtonDown(m_CancelButton);
             shouldActivate |= !Mathf.Approximately(Input.GetAxisRaw(m_HorizontalAxis), 0.0f);
@@ -208,13 +205,18 @@ namespace UnityEngine.EventSystems
             shouldActivate |= (m_MousePosition - m_LastMousePosition).sqrMagnitude > 0.0f;
             shouldActivate |= Input.GetMouseButtonDown(0);
             return shouldActivate;
-        }
+#else
+			return false;
+#endif
+		}
 
         public override void ActivateModule()
         {
             base.ActivateModule();
+#if ENABLE_LEGACY_INPUT_MANAGER
             m_MousePosition = Input.mousePosition;
             m_LastMousePosition = Input.mousePosition;
+#endif
 
             var toSelect = eventSystem.currentSelectedGameObject;
             if (toSelect == null)
@@ -240,21 +242,27 @@ namespace UnityEngine.EventSystems
                 return false;
 
             var data = GetBaseEventData();
+#if ENABLE_LEGACY_INPUT_MANAGER
             if (Input.GetButtonDown(m_SubmitButton))
                 ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, data, ExecuteEvents.submitHandler);
 
             if (Input.GetButtonDown(m_CancelButton))
                 ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, data, ExecuteEvents.cancelHandler);
+#endif
             return data.used;
         }
 
         private bool AllowMoveEventProcessing(float time)
         {
-            bool allow = Input.GetButtonDown(m_HorizontalAxis);
+#if ENABLE_LEGACY_INPUT_MANAGER
+			bool allow = Input.GetButtonDown(m_HorizontalAxis);
             allow |= Input.GetButtonDown(m_VerticalAxis);
             allow |= (time > m_NextAction);
             return allow;
-        }
+#else
+			return false;
+#endif
+		}
 
         private Vector2 GetRawMoveVector()
         {
@@ -333,7 +341,9 @@ namespace UnityEngine.EventSystems
                 pointerEvent.pressPosition = pointerEvent.position;
                 if (pointerEvent.IsVRPointer())
                 {
+#if ENABLE_LEGACY_INPUT_MANAGER
                     pointerEvent.SetSwipeStart(Input.mousePosition);
+#endif
                 }
                 pointerEvent.pointerPressRaycast = pointerEvent.pointerCurrentRaycast;
 
@@ -422,7 +432,7 @@ namespace UnityEngine.EventSystems
             }
         }
 #endregion
-        #region Modified StandaloneInputModule methods
+#region Modified StandaloneInputModule methods
 
         /// <summary>
         /// Process all mouse events. This is the same as the StandaloneInputModule version except that
@@ -490,7 +500,7 @@ namespace UnityEngine.EventSystems
 
             return false;
         }
-        #endregion
+#endregion
 
 
         /// <summary>
@@ -691,7 +701,9 @@ namespace UnityEngine.EventSystems
             // Setup default values here. Set position to zero because we don't actually know the pointer
             // positions. Each canvas knows the position of its canvas pointer.
             leftData.position = Vector2.zero;
+#if ENABLE_LEGACY_INPUT_MANAGER
             leftData.scrollDelta = Input.mouseScrollDelta;
+#endif
             leftData.button = PointerEventData.InputButton.Left;
 
             if (activeGraphicRaycaster)
@@ -726,9 +738,11 @@ namespace UnityEngine.EventSystems
             CopyFromTo(leftData, middleData);
             middleData.button = PointerEventData.InputButton.Middle;
 
+#if ENABLE_LEGACY_INPUT_MANAGER
             m_MouseState.SetButtonState(PointerEventData.InputButton.Left, StateForMouseButton(0), leftData);
             m_MouseState.SetButtonState(PointerEventData.InputButton.Right, StateForMouseButton(1), rightData);
             m_MouseState.SetButtonState(PointerEventData.InputButton.Middle, StateForMouseButton(2), middleData);
+#endif
             return m_MouseState;
         }
 
@@ -799,7 +813,6 @@ namespace UnityEngine.EventSystems
                 return originalPosition + delta * swipeDragScale;
             }
 #endif
-            // If not Gear VR or swipe scroll isn't enabled just return original position
             return originalPosition;
 
         }
@@ -822,7 +835,7 @@ namespace UnityEngine.EventSystems
                 if (pointerEvent.IsVRPointer())
                 {
                     //adjust the position used based on swiping action. Allowing the user to
-                    //drag items by swiping on the GearVR touchpad
+                    //drag items by swiping on the touchpad
                     pointerEvent.position = SwipeAdjustedPosition (originalPosition, pointerEvent);
                 }
                 ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.beginDragHandler);
@@ -856,17 +869,21 @@ namespace UnityEngine.EventSystems
         /// <returns></returns>
         virtual protected PointerEventData.FramePressState GetGazeButtonState()
         {
-            var pressed = Input.GetKeyDown(gazeClickKey) || OVRInput.GetDown(joyPadClickButton);
+			//todo: enable for Unity Input System
+#if ENABLE_LEGACY_INPUT_MANAGER
+			var pressed = Input.GetKeyDown(gazeClickKey) || OVRInput.GetDown(joyPadClickButton);
             var released = Input.GetKeyUp(gazeClickKey) || OVRInput.GetUp(joyPadClickButton);
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            // On Gear VR the mouse button events correspond to touch pad events. We only use these as gaze pointer clicks
-            // on Gear VR because on PC the mouse clicks are used for actual mouse pointer interactions.
             pressed |= Input.GetMouseButtonDown(0);
             released |= Input.GetMouseButtonUp(0);
 #endif
+#else
+			var pressed = OVRInput.GetDown(joyPadClickButton);
+			var released = OVRInput.GetUp(joyPadClickButton);
+#endif
 
-            if (pressed && released)
+			if (pressed && released)
                 return PointerEventData.FramePressState.PressedAndReleased;
             if (pressed)
                 return PointerEventData.FramePressState.Pressed;

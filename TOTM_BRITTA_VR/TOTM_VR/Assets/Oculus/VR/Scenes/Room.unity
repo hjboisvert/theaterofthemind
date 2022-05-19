@@ -6174,6 +6174,7 @@ MonoBehaviour:
   grabBegin: 0.55
   grabEnd: 0.35
   m_parentHeldObject: 0
+  m_moveHandPosition: 0
   m_gripTransform: {fileID: 1931687997}
   m_grabVolumes:
   - {fileID: 1931688001}
@@ -6209,6 +6210,7 @@ MonoBehaviour:
   grabBegin: 0.55
   grabEnd: 0.35
   m_parentHeldObject: 0
+  m_moveHandPosition: 0
   m_gripTransform: {fileID: 2050042248}
   m_grabVolumes:
   - {fileID: 2050042252}

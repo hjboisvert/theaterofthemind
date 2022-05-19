@@ -19,7 +19,7 @@ Shader "Hidden/Image Effects/Blink Curved"
 			CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-
+			
 			#include "UnityCG.cginc"
 
 			struct appdata
@@ -34,30 +34,22 @@ Shader "Hidden/Image Effects/Blink Curved"
 				float4 vertex : SV_POSITION;
 			};
 
-
-			sampler2D _MainTex;
-			float _LocalTime;
-			float _Smoothness;
-			float _Curvature;
-			half4 _MainTex_ST;
-
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				//o.vertex = ComputeNonStereoScreenPos(v.vertex);
-				//o.vertex.xy = TransformStereoScreenSpaceTex(o.vertex.xy, v.vertex.w);
-				o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-				//o.uv = v.uv;
+				o.uv = v.uv;
 				return o;
 			}
-
+			
+			sampler2D _MainTex;
+			float _LocalTime;
+			float _Smoothness;
+			float _Curvature;
 
 			fixed4 frag (v2f i) : SV_Target
 			{
 				fixed4 col = tex2D(_MainTex, i.uv);
-
-				//fixed4 col = tex2D(_MainTex,  UnityStereoScreenSpaceUVAdjust(i.uv, _MainTex_ST));
 				float v = i.uv[1];
 				float curveFactor = pow (0.5 - i.uv[0], 2) * _Curvature;
 				float v1 = v - curveFactor;

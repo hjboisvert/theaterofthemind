@@ -8,6 +8,7 @@ pm2 config file: Desktop\TOTM\VR\pm2.config.js
 
 **startup folder**
 Shortcuts to both the oculus client and the startup script are placed in the 'startup' folder. Access this folder by pressing WIN+r on the keyboard and typing 'shell:startup' in the text box that appears, then click 'run'.
+If you are using remote desktop and can't use the WIN key, you can also open the Run dialog via the Task Manager with File -> Run New Task
 
 **Startup sequence:**
 1. Password auth is diabled, so user qw\<xx\> logs in automatically (where xx is one of 01 - 18)
@@ -20,3 +21,13 @@ To stop the Britta app and not have pm2 re-launch it:
 run `pm2 stop 0` in any cmd window
 
 **Note**: Both the startup script and pm2 config file assume that the path to the TOTM folder on the desktop follows the pattern "C:\Users\<USERNAME>\Desktop\TOTM". If this is not the case on a particular PC, the paths in those text files will need to be updated.
+
+<br><br>
+
+---
+
+Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
+
+Last updated: May 17, 2022
+
+

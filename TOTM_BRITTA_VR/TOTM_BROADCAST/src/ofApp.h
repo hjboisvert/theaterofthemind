@@ -23,6 +23,7 @@
 
 typedef tuple<string, bool, bool, int> StatusInfo;
 
+
 class ofApp : public ofBaseApp {
 
   public:
@@ -38,8 +39,10 @@ class ofApp : public ofBaseApp {
 		void drawKeyControlGuide();
 		void drawErrorMessage(string msg);
 		void drawRetryMessage(string msg);
+		void drawFadeState();
 		void updateReceiverStatus(int id, int status);
 		void checkReceiverConnections(int t);
+		void sendFadeState();
 		void keyPressed(int key);
 		void keyReleased(int key);
 		void mouseMoved(int x, int y );
@@ -99,7 +102,7 @@ class ofApp : public ofBaseApp {
 
 		bool bFadeout = false;
 		bool bBlinkClosed = false;
-	
+
 		bool bNeedNewPipeline = true;
 		bool bConfigLoaded = false;
 		string errorMessage;

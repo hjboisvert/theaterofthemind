@@ -1,5 +1,9 @@
 # TOTM PCs Initial Setup
 
+Get `TOTM.zip` from [Drive](https://drive.google.com/file/d/1zx1ros6qwOpIORFpEIfGmejEoZ7VTA0N/view?usp=sharing) and unzip on Desktop.
+This folder contains the latest builds of TOTM_VR and TOTM_BROADCAST as well as all installers mentioned below.
+
+
 ## Contents
 * [VR PCS](#vr_pcs)
 * [Broadcast PC](#broadcast_pc)
@@ -13,8 +17,13 @@
 The Windows user is an offline, or local, account with a name following the pattern 'qwxx' where xx is a pair of digits in the range 01 - 18.
 The password is Pizzaqwxx, again replacing xx with the number of the user.
 
+### NVIDIA Driver
+If PC has an Nvidia driver other than `457.51`, use the installer in `TOTM\installers`.
+Choose the option for Driver only, **without GeForce Experience**.
+
 ### TightVNC
-Download and install the Windows 64-bit version from [here](https://tightvnc.com/download.php)
+Download and install the Windows 64-bit version from [here](https://tightvnc.com/download.php).
+Typical installation with default options is fine.
 For the password, use the same as for the Windows user
 
 ### Oculus Client
@@ -37,10 +46,10 @@ Note: the installer will download >5 GB additional data
 
 ### gstreamer
 
-Install gstreamer version 1.18.4 [Link]
+Install gstreamer version 1.18.6 [Link](https://gstreamer.freedesktop.org/data/pkg/windows/1.18.6/mingw/)
 Download 2 files:
-gstreamer-1.0-mingw-x86_64-1.18.4.msi
-gstreamer-1.0-devel-mingw-x86_64-1.18.4.msi
+gstreamer-1.0-mingw-x86_64-1.18.6.msi
+gstreamer-1.0-devel-mingw-x86_64-1.18.6.msi
 
 Install each one, making sure to select **COMPLETE** install when prompted.
 
@@ -100,6 +109,7 @@ Disable password log-in following instructions under “Startup Automation” ab
 
 ## TightVNC
 Download and install the Windows 64-bit version from [here](https://tightvnc.com/download.php)
+Typical installation with default options is fine.
 For the password, use the same as for the Windows user
 
 ## gstreamer
@@ -115,11 +125,12 @@ Follow gstreamer instructions from the VR PC section above, then
 
 
 ## Elgato
-Install 4k Capture Utility from the elgato site.Installing the utility will also install the required drivers for the capture cards.
-TOTM_BROADCAST
-Copy BROADCAST.zip to the Documents folder
-Unzip
-In the BROADCAST folder, right click on TOTM_BROADCAST.exe then “Create Shortcut”
+Install 4k Capture Utility in the installers folder.
+Installing the utility will also install the required drivers for the capture cards.
+
+
+## TOTM_BROADCAST
+In the `TOTM\BROADCAST\bin` folder, right click on TOTM_BROADCAST.exe then “Create Shortcut”
 Place the new shortcut on the desktop
 
 ---
@@ -134,4 +145,13 @@ Place the new shortcut on the desktop
   * Click on the network icon in the lower right
   * Under the "Unidentified" network, click "Properties"
   * Under "Network Profile", make sure "Private" is selected
+* Follow instructions in the [disable notifications and updates guide](./win_notifications_updates.md)
+
+<br><br>
+
+---
+
+Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
+
+Last updated: May 19, 2022
 

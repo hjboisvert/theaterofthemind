@@ -1,6 +1,8 @@
 # MSI Trident PCs
 [MSI specs page](https://www.msi.com/Desktop/Trident-3/Specification)
 
+**NOTE**: Windows version listed below is out of date. See output from individual PCs in the [Docs/systeminfo folder](./systeminfo/)
+
 ### Output from the `systeminfo` command:
 
 ```
@@ -90,4 +92,12 @@ I/O Port	0x0000E000-0x0000EFFF
 IRQ Channel	IRQ 16
 Driver	C:\WINDOWS\SYSTEM32\DRIVERSTORE\FILEREPOSITORY\NVMD.INF_AMD64_1408EAF9A25ED64F\NVLDDMKM.SYS (27.21.14.5751, 31.53 MB (33,066,392 bytes), 12/2/2020 5:22 AM)
 ```
+
+<br><br>
+
+---
+
+Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
+
+Last updated: May 19, 2022
 
