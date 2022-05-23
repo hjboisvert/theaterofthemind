@@ -1,0 +1,51 @@
+Host Name:                 DESKTOP-RL9J1MV
+OS Name:                   Microsoft Windows 10 Home
+OS Version:                10.0.19044 N/A Build 19044
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          qw06
+Registered Organization:
+Product ID:                00325-81434-45433-AAOEM
+Original Install Date:     4/13/2022, 5:56:43 PM
+System Boot Time:          5/9/2022, 3:17:05 PM
+System Manufacturer:       Micro-Star International Co., Ltd.
+System Model:              H310 Gaming Trident3 (MS-B920)
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 158 Stepping 13 GenuineIntel ~3000 Mhz
+BIOS Version:              American Megatrends Inc. 9.30, 4/30/2019
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              N/A
+Time Zone:                 (UTC-07:00) Yukon
+Total Physical Memory:     16,314 MB
+Available Physical Memory: 12,898 MB
+Virtual Memory: Max Size:  22,458 MB
+Virtual Memory: Available: 16,760 MB
+Virtual Memory: In Use:    5,698 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\DESKTOP-RL9J1MV
+Hotfix(s):                 5 Hotfix(s) Installed.
+                           [01]: KB5012157
+                           [02]: KB5003791
+                           [03]: KB5012599
+                           [04]: KB5011352
+                           [05]: KB5011651
+Network Card(s):           2 NIC(s) Installed.
+                           [01]: Intel(R) Dual Band Wireless-AC 3168
+                                 Connection Name: Wi-Fi
+                                 Status:          Media disconnected
+                           [02]: Intel(R) Ethernet Connection (2) I219-V
+                                 Connection Name: Ethernet
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 192.168.2.4
+                                 [02]: fe80::515c:68f0:5132:15fc
+Hyper-V Requirements:      VM Monitor Mode Extensions: Yes
+                           Virtualization Enabled In Firmware: Yes
+                           Second Level Address Translation: Yes
+                           Data Execution Prevention Available: Yes

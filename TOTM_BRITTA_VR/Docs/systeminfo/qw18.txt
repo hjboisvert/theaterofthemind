@@ -1,0 +1,51 @@
+Host Name:                 DESKTOP-HUL7CL3
+OS Name:                   Microsoft Windows 10 Home
+OS Version:                10.0.19044 N/A Build 19044
+OS Manufacturer:           Microsoft Corporation
+OS Configuration:          Standalone Workstation
+OS Build Type:             Multiprocessor Free
+Registered Owner:          qw18
+Registered Organization:
+Product ID:                00325-82238-93523-AAOEM
+Original Install Date:     4/11/2022, 11:31:41 AM
+System Boot Time:          5/11/2022, 8:10:30 AM
+System Manufacturer:       Micro-Star International Co., Ltd.
+System Model:              MPG H510 Trident 3 (MS-B935)
+System Type:               x64-based PC
+Processor(s):              1 Processor(s) Installed.
+                           [01]: Intel64 Family 6 Model 167 Stepping 1 GenuineIntel ~2496 Mhz
+BIOS Version:              American Megatrends International, LLC. 8.10, 8/25/2021
+Windows Directory:         C:\WINDOWS
+System Directory:          C:\WINDOWS\system32
+Boot Device:               \Device\HarddiskVolume1
+System Locale:             en-us;English (United States)
+Input Locale:              N/A
+Time Zone:                 (UTC-08:00) Pacific Time (US & Canada)
+Total Physical Memory:     16,262 MB
+Available Physical Memory: 13,217 MB
+Virtual Memory: Max Size:  18,694 MB
+Virtual Memory: Available: 14,001 MB
+Virtual Memory: In Use:    4,693 MB
+Page File Location(s):     C:\pagefile.sys
+Domain:                    WORKGROUP
+Logon Server:              \\DESKTOP-HUL7CL3
+Hotfix(s):                 5 Hotfix(s) Installed.
+                           [01]: KB5012157
+                           [02]: KB5003791
+                           [03]: KB5012599
+                           [04]: KB5011352
+                           [05]: KB5011651
+Network Card(s):           2 NIC(s) Installed.
+                           [01]: Intel(R) Wi-Fi 6E AX210 160MHz
+                                 Connection Name: Wi-Fi
+                                 Status:          Media disconnected
+                           [02]: Intel(R) Ethernet Controller (3) I225-V
+                                 Connection Name: Ethernet 2
+                                 DHCP Enabled:    No
+                                 IP address(es)
+                                 [01]: 192.168.2.22
+                                 [02]: fe80::65c0:85b3:7bcc:c5b2
+Hyper-V Requirements:      VM Monitor Mode Extensions: Yes
+                           Virtualization Enabled In Firmware: Yes
+                           Second Level Address Translation: Yes
+                           Data Execution Prevention Available: Yes
