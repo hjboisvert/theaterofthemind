@@ -20,6 +20,14 @@ First, check the Cable Connections and Startup sections of the readme
 
 <br>
 
+* TOTM_VR sometimes does not launch automatically when the pc starts, even with a shortcut to STARTUP.BAT in the windows startup folder.
+
+    * **Cause**: This is an occasional issue with the Oculus software that causes it to freeze sometimes when the PC boots with the headset proximity sensor covered. We need to have that sensor covered so that the headset wakes on motion instead of waiting for someone to wear it.
+
+    * **Solution**: The fix is to reboot the PC when this happens. That means when the VR stations are booted up at the beginning of the day, the status list on the BROADCAST pc needs to be checked to make sure TOTM_VR started up correctly on all stations.
+
+<br>
+
 * Getting video stream in the headset but there’s no audio.
 
     * **Cause**: wrong audio output device selected on PC
@@ -98,7 +106,7 @@ to be repeated.
 
     * **Cause**: Could not start video stream for one or both cameras (it displays the first critical error, so both sides may be failing even though it only says right or left in the message)
 
-    * **Solution**: Make sure both cameras are connected properly and turned on
+    * **Solution**: Make sure both cameras are connected properly and turned on. If it happens repeatedly, check and re-do all USB and HDMI connections between the cameras and the BROADCAST PC.
 
 <br>
 
@@ -122,6 +130,6 @@ to be repeated.
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: May 17, 2022
+Last updated: August 17, 2022
 
 
