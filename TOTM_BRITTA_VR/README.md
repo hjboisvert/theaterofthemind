@@ -189,9 +189,12 @@ Things we will likely want to alter or tweak in the future
 
 #### Assets/Scripts
 * FadeScript.cs (parameters: durations of fadein/fadeout. Attached to S-Left and S-Right objects)
-* FisheyeKParameter.cs (parameters: k angle, camera height, width and height of masked area. Attached to S-Left object and controls left and right eyes)
+* FisheyeKParam.cs (parameters: k angle, camera height, width and height of masked area. Attached to S-Left object and controls left and right eyes)
 * OscScript.cs (OSC Command listener)
 * VRRecenter.cs (sets S-Left and S-Right orientation to match headset forward. Triggered in OscScript.cs. Attached to S-Left and S-Right objects)
+* HeadsetStatusScript.cs (Keeps track of headset sleep / awake status. Queried within other scripts)
+* WaitingRoomImage.cs (Loads and controls movement and alpha of Dan Dare poster image)
+* WaitingRoomScript.cs (Controls alpha levels of britta scene and dan dare image based on OSC commands)
 
 #### Assets/GstreamerUnity/Components
 * BaseVideoPlayer.cs (gstreamer pipeline listener / frame grabber. Writes to textures of SphereLeftMaterial and SphereRightMaterial)
@@ -212,8 +215,6 @@ Things we will likely want to alter or tweak in the future
 
 
 ## Possible Improvements
-* May want something other than black screen when users put on headset before fading in. Possibly floating image asset of the poster in Britta's room
-* Try adjusting Y-axis rotation of eye cameras in VR to see what effect this has on doubling and near/far focus.
 * Have TOTM_VR listen for parameters from BROADCAST. Have BROADCAST send params when a new client sends first heartbeat. Could add sliders in ofx app for some of these.
   * Network buffer time
   * Video dimensions (for scaling)
@@ -240,5 +241,5 @@ Things we will likely want to alter or tweak in the future
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: May 19, 2022
+Last updated: August 17, 2022
 

@@ -14,8 +14,12 @@ public class OscScript : MonoBehaviour
     private int oscId;
     private VRRecenter sphereLeft;
     private VRRecenter sphereRight;
-    private FadeScript faderLeft;
-    private FadeScript faderRight;
+    private RecenterScript recenterScript;
+    //private FadeScript faderLeft;
+    //private FadeScript faderRight;
+    // private StereoFadeScript stereoFader;
+    // private DanDareLoader danDare;
+    private WaitingRoomScript waitingRoomScript;
     private PostProcess.BlinkEffect blinkLeft;
     private PostProcess.BlinkEffect blinkRight;
     private NetworkStereoPlayer networkPlayer;
@@ -29,13 +33,28 @@ public class OscScript : MonoBehaviour
     void Start()
     {
         string user = Environment.UserName;
-        oscId = int.Parse(user.Substring(2));
-        Debug.Log("UserName: " + oscId);
+        oscId = 99;
+        try {
+        	oscId = int.Parse(user.Substring(2));
+        }
+        catch (FormatException) {
+        	Debug.Log("Wrong username format: " + user);
+        }
+        catch (OverflowException) {
+        	Debug.Log("Wrong username format: " + user);
+        }
+
+        Debug.Log("User ID: " + oscId);
     	sphereLeft = GameObject.Find("S-Left").GetComponent<VRRecenter>();
    		sphereRight = GameObject.Find("S-Right").GetComponent<VRRecenter>();
+        recenterScript = GameObject.Find("OVRCameraRig").GetComponent<RecenterScript>();
 
-        faderLeft = GameObject.Find("S-Left").GetComponent<FadeScript>();
-        faderRight = GameObject.Find("S-Right").GetComponent<FadeScript>();
+        //faderLeft = GameObject.Find("S-Left").GetComponent<FadeScript>();
+        //faderRight = GameObject.Find("S-Right").GetComponent<FadeScript>();
+        // stereoFader = GameObject.Find("StereoFader").GetComponent<StereoFadeScript>();
+
+        waitingRoomScript = GameObject.Find("WaitingRoom").GetComponent<WaitingRoomScript>();
+        // danDare = GameObject.Find("OVRCameraRig").GetComponentInChildren<DanDareLoader>();
 
         blinkLeft = GameObject.Find("LeftEyeAnchor").GetComponent<PostProcess.BlinkEffect>();
         blinkRight = GameObject.Find("RightEyeAnchor").GetComponent<PostProcess.BlinkEffect>();
@@ -88,20 +107,27 @@ public class OscScript : MonoBehaviour
             Debug.Log("got RECENTER command");
             sphereLeft.Recenter();
             sphereRight.Recenter();
+            recenterScript.Recenter(); // headset
             bRecvRecenter = false;
         }
         if (bRecvFadeout)
         {
             Debug.Log("got FADEOUT command");
-            faderLeft.TriggerFadeout();
-            faderRight.TriggerFadeout();
+            //faderLeft.TriggerFadeout();
+            //faderRight.TriggerFadeout();
+            //stereoFader.TriggerFadeout();
+            //danDare.StartFadein();
+            waitingRoomScript.TransitionToWaiting();
             bRecvFadeout = false;
         }
         if (bRecvFadein)
         {
             Debug.Log("got FADEIN command");
-            faderLeft.TriggerFadein();
-            faderRight.TriggerFadein();
+            // danDare.StartFadeout();
+            //stereoFader.TriggerFadein();
+            //faderLeft.TriggerFadein();
+            //faderRight.TriggerFadein();
+            waitingRoomScript.TransitionToBritta();
             bRecvFadein = false;
         }
         if (bRecvBlinkClosed)

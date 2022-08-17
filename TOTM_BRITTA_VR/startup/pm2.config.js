@@ -4,6 +4,7 @@ module.exports = {
   apps : [{
     name   : "TOTM_VR",
     script : "C:\\Users\\" + userName + "\\Desktop\\TOTM\\VR\\build\\TOTM_VR.exe",
+    restart_delay: 1000,
     env : {
       windowsHide: false
     }

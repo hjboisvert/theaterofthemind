@@ -16,13 +16,28 @@ public class NetworkStereoPlayer : BaseVideoPlayer
 	//private NetworkUtils networkUtils;
 	//private string pipelineString;
 
+	private HeadsetStatusScript headsetStatus;
 
 	protected override void Start()
 	{
 		lastFrameCount = 0;
 		badStatusCount = 0;
-		base.Start();
+
+		headsetStatus = GameObject.Find("OVRCameraRig").GetComponent<HeadsetStatusScript>();
+
+		StartCoroutine("WaitForHeadset");
 	}
+
+	private IEnumerator WaitForHeadset()
+    {
+		Debug.Log("WAIT FOR HEADSET");
+		while (!headsetStatus.bHeadsetAwake)
+        {
+			yield return new WaitForSeconds(0.1f);
+        }
+
+		base.Start();
+    }
 
 
 	protected override string _GetPipeline()
@@ -59,9 +74,9 @@ public class NetworkStereoPlayer : BaseVideoPlayer
 		else
 		{
 			badStatusCount += 1;
-			if (badStatusCount == 6)
+			if (badStatusCount >= 6)
 			{
-				badStatusCount = 0;
+
 				RestartPipeline();
 			}
 		}
@@ -72,17 +87,58 @@ public class NetworkStereoPlayer : BaseVideoPlayer
 
 	public void RestartPipeline()
 	{
+		if (!headsetStatus.bHeadsetAwake || base.m_Texture == null || !base.m_Texture.IsLoaded)
+        {
+			return;
+        }
 		Debug.Log("Restarting pipeline... ");
+		if (base.m_Texture.IsPlaying)
+        {
+			base.m_Texture.Stop();
+			//base.m_Texture.Close();
+        }
 		base.m_Texture.SetPipeline(_GetPipeline());
 		base.m_Texture.Player.CreateStream();
 		base.m_Texture.Play();
+		badStatusCount = 0;
 	}
 
-	/*
+	public void Update()
+    {
+		if (headsetStatus.bHeadsetAwake)
+        {
+			base.Update();
+		}
+
+		if (base.m_Texture == null || !base.m_Texture.IsLoaded)
+        {
+			return;
+        }
+		if (!headsetStatus.bHeadsetAwake && base.m_Texture.IsPlaying)
+        {
+			Debug.Log("NetworkStereoPlayer: Headset asleep. Stop pipeline");
+			base.m_Texture.Stop();
+			// base.m_Texture.Close();
+        }
+	
+		else if (headsetStatus.bHeadsetAwake && !base.m_Texture.IsPlaying)
+        {
+			Debug.Log("NetworkStereoPlayer Update: Start pipeline");
+			RestartPipeline();
+		}
+	
+    }
+
+
 	protected override void OnDestroy()
 	{
-		base.OnDestroy();
+		if (base.m_Texture != null && base.m_Texture.IsPlaying)
+        {
+			base.m_Texture.Stop();
+			base.m_Texture.Close();
+		}
+		//base.OnDestroy();
 	}
-	*/
+
 
 }

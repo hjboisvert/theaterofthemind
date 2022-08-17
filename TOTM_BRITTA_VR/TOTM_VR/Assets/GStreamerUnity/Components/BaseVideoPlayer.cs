@@ -166,7 +166,7 @@ public abstract class BaseVideoPlayer : DependencyRoot {
 	}
 
 	// Update is called once per frame
-	void Update() {
+	protected void Update() {
 
 		//if (m_Texture.Player.IsPlaying && (int)OVRManager.display.displayFrequency != 60)
 		//{

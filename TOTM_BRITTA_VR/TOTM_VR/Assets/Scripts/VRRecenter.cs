@@ -11,6 +11,7 @@ public class VRRecenter : MonoBehaviour
     void Start()
     {
         initialAngles = transform.eulerAngles;
+        Debug.Log("VRRecenter: Initial Angles: " + initialAngles);
         cam = (OVRCameraRig)FindObjectOfType(typeof(OVRCameraRig));
     }
 
@@ -32,6 +33,5 @@ public class VRRecenter : MonoBehaviour
         {
             Recenter();
         }
-        
     }
 }

@@ -30,11 +30,15 @@ public class FisheyeKParam : MonoBehaviour
     private GameObject sLeft;
     private GameObject sRight;
 
+    private HeadsetStatusScript headsetStatus;
+
     // Start is called before the first frame update
     void Start()
     {
         sLeft = GameObject.Find("S-Left");
         sRight = GameObject.Find("S-Right");
+        headsetStatus = GameObject.Find("OVRCameraRig").GetComponent<HeadsetStatusScript>();
+
         OnCamHeightChange += CamHeightChangeHandler;
         OnKAngleChange += KAngleChangeHandler;
         OnMaskWidthChange += MaskWidthChangeHandler;
@@ -49,6 +53,11 @@ public class FisheyeKParam : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!headsetStatus.bHeadsetAwake)
+        {
+            return;
+        }
+
         if (m_camHeight != camHeight && OnCamHeightChange != null)
         {
             m_camHeight = camHeight;
