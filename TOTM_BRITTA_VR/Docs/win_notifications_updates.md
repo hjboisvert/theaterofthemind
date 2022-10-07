@@ -9,7 +9,12 @@
   * Switch main toggle to off
   * Uncheck all boxes below
 
-  Note: Possibly set up [Focus Assist](https://support.microsoft.com/en-us/windows/focus-assist-automatic-activation-settings-81ed1b25-809b-741d-549c-7696474d15d3) as well
+## Focus Assist
+
+[Link](https://support.microsoft.com/en-us/windows/focus-assist-automatic-activation-settings-81ed1b25-809b-741d-549c-7696474d15d3)
+
+* Search for Focus Assist in the system settings window
+* Select "Alarms only" in the top part and turn off all automatic rules below
 
 
 ## Disable Automatic Windows Updates
@@ -51,6 +56,6 @@ In Windows Home Edition, we need to add an entry to the Windows Registry. In Pro
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: May 17, 2022
+Last updated: September 22, 2022
 
 

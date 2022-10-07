@@ -6,9 +6,13 @@ is located in [this drive folder](https://drive.google.com/drive/folders/1eEnmkP
 
 For on-location (not dev) installation and setup of the VR and BROADCAST PCs, see [this doc](Docs/totm_pc_setup.md) then follow the cable connections and startup sections below.
 
+For usage and common issues, see
+[VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
+
 For troubleshooting, see [this doc](Docs/totm_troubleshooting.md).
 
-Both apps are developed and tested on Windows 10 version 21H2. Windows updates have caused previous builds of TOTM_VR to stop working.
+Both apps are developed and tested on Windows 10 version 21H2. **IMPORTANT:** Windows updates have caused previous builds of TOTM_VR
+to stop working.
 We are using the same PC model \[[Link](https://www.msi.com/Desktop/Trident-3)\] for both apps.
 Detailed system info for each of the PCs can be found [here](Docs/systeminfo/)
 
@@ -27,6 +31,7 @@ Unity VR app that displays stereoscopic dome projection from two live wide-angle
  * [OSCJack for Unity v0.1.4](https://github.com/keijiro/OscJack/tree/v0.1.4)
  * [Unity Oculus Integration Package v39.0](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022#releases)
  * [Unity Eye Blink Effect Package v1.0](https://assetstore.unity.com/packages/tools/particles-effects/eye-blink-effect-fps-vr-61275#releases)
+ * [Python v3.10.6](https://www.python.org/downloads/release/python-3106/)
 
 ## TOTM_BROADCAST
 openframeworks app that receives live video from two cameras wired to the PC, live audio from a microphone, and then broadcasts to local network over RTP (and RTCP for receivers to get necessary media and stream info)
@@ -241,5 +246,5 @@ Things we will likely want to alter or tweak in the future
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: August 17, 2022
+Last updated: September 22, 2022
 
