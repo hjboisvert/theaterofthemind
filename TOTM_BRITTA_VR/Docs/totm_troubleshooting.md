@@ -1,6 +1,7 @@
 # TOTM TROUBLESHOOTING
 
-First, check the Cable Connections and Startup sections of the readme
+First, read through the [VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
+Then check the Cable Connections and Startup sections of the readme.
 
 ## Contents
 * [VR PCs](#vr_pcs)

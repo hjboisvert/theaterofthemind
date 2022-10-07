@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WaitingRoomScript : MonoBehaviour
 {
-    //private WaitingRoomSprite waitingRoomSprite;
     private WaitingRoomImage waitingRoomImage;
     private StereoFadeScript stereoFader;
     private HeadsetStatusScript headsetStatus;
@@ -14,10 +13,7 @@ public class WaitingRoomScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // waitingRoomImage = GameObject.Find("WaitingRoomPoster").GetComponent<WaitingRoomImage>();
-        //waitingRoomSprite = GameObject.Find("WaitingRoomSprite");
         waitingRoomImage = GameObject.Find("WaitingRoomSprite").GetComponentInChildren<WaitingRoomImage>();
-        //stereoFader = GameObject.Find("StereoFader").GetComponent<StereoFadeScript>();
         stereoFader = GameObject.Find("StereoFader").GetComponent<StereoFadeScript>();
 
         headsetStatus = GameObject.Find("OVRCameraRig").GetComponent<HeadsetStatusScript>();
@@ -25,30 +21,16 @@ public class WaitingRoomScript : MonoBehaviour
 
     public void TransitionToWaiting()
     {
-        
-        if (!headsetStatus.bHeadsetAwake)
-        {
-            //return;
-        }
-
         if (!bInWaitingRoom && !stereoFader.GetIsFading() && !waitingRoomImage.GetIsFading())
         {
-            //waitingRoomSprite.setActive(true);
             waitingRoomImage.TriggerFadein();
             stereoFader.TriggerFadeout();
             bInWaitingRoom = true;
         }
-
     }
 
     public void TransitionToBritta()
     {
-        
-        if (!headsetStatus.bHeadsetAwake)
-        {
-            //return;
-        }
-
         if (bInWaitingRoom && !stereoFader.GetIsFading() && !waitingRoomImage.GetIsFading())
         {
             waitingRoomImage.TriggerFadeout();

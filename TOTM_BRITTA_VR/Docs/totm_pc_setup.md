@@ -44,14 +44,25 @@ A few codes:
 
 Note: the installer will download >5 GB additional data
 
+#### **Version Rollback**
+Because there is no official way to install a specific oculus version, we need to manually roll back the oculus files to match the
+version on the other PCs.
+
+Go to C:\Program Files\Oculus\Support
+Look at the folders included in `install\oculus_v39_0_0_65_369.zip` and delete ones with those names in the Support folder.
+Unzip the files and copy into Support folder.
+
+**NOTE**: The client app will still unfortunately still show whatever version was initially installed. This is expected.
+You can check the version of these support files by launching Support\oculus-diagnostics\OculusDebugTool.exe and checking system info.
+
 ### gstreamer
 
-Install gstreamer version 1.18.6 [Link](https://gstreamer.freedesktop.org/data/pkg/windows/1.18.6/mingw/)
-Download 2 files:
+Install gstreamer version 1.18.6. Link, if needed: [Link](https://gstreamer.freedesktop.org/data/pkg/windows/1.18.6/mingw/)
+There are 2 installers:
 gstreamer-1.0-mingw-x86_64-1.18.6.msi
 gstreamer-1.0-devel-mingw-x86_64-1.18.6.msi
 
-Install each one, making sure to select **COMPLETE** install when prompted.
+Install both, making sure to select **COMPLETE** install when prompted.
 
 Add gstreamer binary folder path to System Environment Variables:
 1. Open Settings from the Start menu and type 'environment' in the search area
@@ -72,19 +83,25 @@ Don't check the box to install extra build tools, they're not necessary.
 ### PM2
 Once node is installed, open a cmd window and run `npm install -g pm2` to install pm2
 
+### Python
+Run the Python-3.10.6-amd64.exe installer and make sure to **check box for "Add python 3.10 to PATH"** keep defaults for all other
+options.
+
+Note where it installs to. Typically it will be `C:\Python310`.
+Delete the `site-packages` folder in `Python310\Lib` and replace it with the one in the install folder of TOTM.zip, unzipping first.
+
+
 ## TOTM Folder
-Create a folder named “TOTM” on the Desktop
-Unzip VR.zip in the TOTM folder
-
-
-**NOTE**: Open pm2.config.js in Notepad and confirm that the folder name of the unity app build is correct. Usually, the folder name will be the date of the build (for example: 2_28_2022), so this file may need to be updated for new builds.
-
 
 ## Startup Automation
 
 ### Disable Password
 Open the Start menu (windows icon on lower left) and right click the user portrait and then "change account settings".
 In the window that opens, click "Sign-in options" and under "Require sign-in", select "Never".
+
+#### AutoLogon
+On new installs of windows, the above steps will not work. Intead, run AutoLogon.exe in TOTM\install\AutoLogon and enter
+the username and password in the dialog. See User section above for the user and password to use here.
 
 ### Place Shortcuts in Startup Folder
 #### Open Startup Folder
@@ -96,8 +113,13 @@ Open Start menu and find Oculus. Right click and then over over "More" and click
 #### Startup Script
 In the "TOTM\VR" folder, right click "STARTUP.BAT" and choose "Create Shortcut". Copy the shortcut and paste in startup folder.
 
+**NOTE**: Open pm2.config.js in Notepad and confirm that the folder name of the unity app build is correct.
+Usually, the folder name will be the date of the build (for example: 2_28_2022), so this file may need to be updated for new builds.
 
 **NOTE**: TOTM_VR.exe needs to be launched manually the first time it runs. A windows defender prompt will appear and you need to click “Allow”.
+
+**NOTE**: If you see a console error like "ImportError: No module named ait" after the startup script launches,
+    that means the `site-packages` folder hasn't been replaced. See Python section above.
 
 ---
 
@@ -153,5 +175,5 @@ Place the new shortcut on the desktop
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: May 19, 2022
+Last updated: September 22, 2022
 

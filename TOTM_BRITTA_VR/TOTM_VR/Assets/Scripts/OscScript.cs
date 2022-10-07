@@ -15,10 +15,6 @@ public class OscScript : MonoBehaviour
     private VRRecenter sphereLeft;
     private VRRecenter sphereRight;
     private RecenterScript recenterScript;
-    //private FadeScript faderLeft;
-    //private FadeScript faderRight;
-    // private StereoFadeScript stereoFader;
-    // private DanDareLoader danDare;
     private WaitingRoomScript waitingRoomScript;
     private PostProcess.BlinkEffect blinkLeft;
     private PostProcess.BlinkEffect blinkRight;
@@ -48,13 +44,7 @@ public class OscScript : MonoBehaviour
     	sphereLeft = GameObject.Find("S-Left").GetComponent<VRRecenter>();
    		sphereRight = GameObject.Find("S-Right").GetComponent<VRRecenter>();
         recenterScript = GameObject.Find("OVRCameraRig").GetComponent<RecenterScript>();
-
-        //faderLeft = GameObject.Find("S-Left").GetComponent<FadeScript>();
-        //faderRight = GameObject.Find("S-Right").GetComponent<FadeScript>();
-        // stereoFader = GameObject.Find("StereoFader").GetComponent<StereoFadeScript>();
-
         waitingRoomScript = GameObject.Find("WaitingRoom").GetComponent<WaitingRoomScript>();
-        // danDare = GameObject.Find("OVRCameraRig").GetComponentInChildren<DanDareLoader>();
 
         blinkLeft = GameObject.Find("LeftEyeAnchor").GetComponent<PostProcess.BlinkEffect>();
         blinkRight = GameObject.Find("RightEyeAnchor").GetComponent<PostProcess.BlinkEffect>();
@@ -63,7 +53,6 @@ public class OscScript : MonoBehaviour
 
         Debug.Log("Starting OSC Server on port 8000");
     	server = new OscServer(8000);
-    	// server.MessageDispatcher.AddCallback("/cmd", CmdMsgCallback);
         server.MessageDispatcher.AddCallback("/cmd", this.CmdMsgCallback);
 
         Debug.Log("Sending heartbeats to " + broadcasterIpAddress);
@@ -113,20 +102,12 @@ public class OscScript : MonoBehaviour
         if (bRecvFadeout)
         {
             Debug.Log("got FADEOUT command");
-            //faderLeft.TriggerFadeout();
-            //faderRight.TriggerFadeout();
-            //stereoFader.TriggerFadeout();
-            //danDare.StartFadein();
             waitingRoomScript.TransitionToWaiting();
             bRecvFadeout = false;
         }
         if (bRecvFadein)
         {
             Debug.Log("got FADEIN command");
-            // danDare.StartFadeout();
-            //stereoFader.TriggerFadein();
-            //faderLeft.TriggerFadein();
-            //faderRight.TriggerFadein();
             waitingRoomScript.TransitionToBritta();
             bRecvFadein = false;
         }
