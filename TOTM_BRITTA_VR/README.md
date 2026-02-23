@@ -2,38 +2,56 @@
 Receiver and sender for Theater of the Mind VR experience
 
 The TOTM.zip file, containing the latest builds of the VR and BROADCAST apps as well as the installers for all dependencies,
-is located in [this drive folder](https://drive.google.com/drive/folders/1eEnmkPB91Y5Vo2imYkLwD9W3qooDah3d?usp=sharing).
+downloaded using [this link](https://drive.google.com/drive/folders/1mWl5btYyHglABdeF879kGxaHHOfXyhcN?usp=drive_link).
+This GDrive folder is owned by the `totmarbutus@gmail.com` account.
 
-For on-location (not dev) installation and setup of the VR and BROADCAST PCs, see [this doc](Docs/totm_pc_setup.md) then follow the cable connections and startup sections below.
+For on-location (not dev) installation and setup of the VR and BROADCAST PCs, see [this doc](Docs/totm_pc_setup_2026.md) then follow the cable connections and startup sections below.
+
+For headset setup, see [this doc](Docs/quest3_setup.md)
 
 For usage and common issues, see
 [VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
 
-For troubleshooting, see [this doc](Docs/totm_troubleshooting.md).
+Note: The above document was prepared for the 2022 run of the show and that doc should be updated based on onsite testing and rehearsals. The headset wake up procedure during room reset in the doc above is not required with the new Quest headsets
 
-Both apps are developed and tested on Windows 10 version 21H2. **IMPORTANT:** Windows updates have caused previous builds of TOTM_VR
+For troubleshooting, see [this doc](Docs/totm_troubleshooting.md)
+
+The VR app runs on both the MSI Trident PCs and the Asus ROGs
+The Broadcast app **only** works on the MSI Trident PCs (see Issues section below)
+
+Both apps were originally developed and tested on Windows 10 version 21H2 using same PC model \[[Link](https://www.msi.com/Desktop/Trident-3)\] for both apps.
+Detailed system info for the MSI Trident PCs can be found [here](Docs/systeminfo/)
+ **IMPORTANT:** Windows updates have caused previous builds of TOTM_VR
 to stop working.
-We are using the same PC model \[[Link](https://www.msi.com/Desktop/Trident-3)\] for both apps.
-Detailed system info for each of the PCs can be found [here](Docs/systeminfo/)
 
-## TOTM_VR
+## Contents
+* [TOTM VR](#totm_vr)
+* [TOTM Broadcast](#totm_broadcast)
+* [Cable Connections](#cables)
+* [Startup](#startup)
+* [Comms / Protocols](#comms)
+* [Keyboard Controls](#keyboard)
+* [Development Install](#dev_install)
+* [Issues](#issues)
+
+## TOTM_VR <a name="totm_vr"></a>
 Unity VR app that displays stereoscopic dome projection from two live wide-angle video streams
 
 #### Hardware
- * [Oculus Rift S](https://www.oculus.com/rift-s/?locale=en_US)
+ * [Meta Quest 3](https://www.meta.com/quest/quest-3/)
 
 #### Software
- * Windows 10 version 21H2
+ * Windows 11
  * [Unity 2021.3.1f1](https://store.unity.com/download?ref=personal)
- * [Oculus Rift Software v39.0.0.65.369](https://www.oculus.com/rift/setup/?locale=en_US)
- * [Gstreamer v1.18.6](https://gstreamer.freedesktop.org/download/) (runtime and development files)
+ * [Meta Horizon Link Desktop App v83.0.0.333.349](https://www.meta.com/help/quest/1517439565442928/)
+ * [Gstreamer v1.18.4](https://gstreamer.freedesktop.org/download/) (runtime and development files)
+   * Note: if the google drive link above can't be accessed, you will need to download the closest version `v1.18.6` instead
  * [Unity Gstreamer Plugin, commit 37845d](https://github.com/mrayy/mrayGStreamerUnity/tree/37845d2bc874758f33350242a9c6755488ccc1d7)
  * [OSCJack for Unity v0.1.4](https://github.com/keijiro/OscJack/tree/v0.1.4)
  * [Unity Oculus Integration Package v39.0](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022#releases)
  * [Unity Eye Blink Effect Package v1.0](https://assetstore.unity.com/packages/tools/particles-effects/eye-blink-effect-fps-vr-61275#releases)
- * [Python v3.10.6](https://www.python.org/downloads/release/python-3106/)
 
-## TOTM_BROADCAST
+## TOTM_BROADCAST <a name="totm_broadcast"></a>
 openframeworks app that receives live video from two cameras wired to the PC, live audio from a microphone, and then broadcasts to local network over RTP (and RTCP for receivers to get necessary media and stream info)
 
 #### Hardware
@@ -47,7 +65,7 @@ openframeworks app that receives live video from two cameras wired to the PC, li
  * [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/older-downloads/)
    * Openframeworks addon
 
-## Cable Connections
+## Cable Connections <a name="cables"></a>
 
 **Broadcast**
 * Plug each elgato capture card into a red (USB 3.0) port using a USB 3 extender cable (**important!**). Plug one in front and one in back of the PC
@@ -58,13 +76,12 @@ openframeworks app that receives live video from two cameras wired to the PC, li
 * Connect PC to router with ethernet cable
 
 **VR**
-* Plug an **unpowered** USB hub (**ABSOLUTELY CRITICAL!**) into the red USB port under the PC's ethernet port on the back
-* Plug headset USB cable into the hub
-* Plug headset DisplayPort cable to port on back of PC
+* Plug headset USB cable into red USB 3.0 port on PC
+  * For MSI Trident PCs, you must use an **unpowered** USB hub connected to the red USB port under the PC's ethernet port on the rear, then connect link cable to the hub. Otherwise USB connection is not stable across reboots.
 * Connect PC to router with ethernet cable
-* Connect to monitor if using, otherwise plug in an HDMI dummy dongle to the port on the back (**important** make sure to plug the dummy into the HDMI port in the metal area of the PC. Left side if you are behind the PC)
+* Connect to monitor if using, otherwise plug in an HDMI dummy dongle to the port on the back (**important** For MSI Trident PCs, make sure to plug the dummy into the HDMI port in the metal area of the PC. Left side if you are behind the PC)
 
-## Startup
+## Startup <a name="startup"></a>
 
 **Broadcast PC**
 * Secure the cameras in the mount using tripod screws
@@ -78,10 +95,10 @@ openframeworks app that receives live video from two cameras wired to the PC, li
 If startup automation has been set up, the VR app will start automatically after starting the PC (after a minute or so).
 
 Manual start:
-* Make sure there is an Oculus software window open. If not, start it from the Start menu
+* Make sure there is a Meta software window open. If not, start it from the Start menu
 * Find the TOTM_VR app build folder on the desktop and start the exe within
 
-## Comms / Protocols
+## Comms / Protocols <a name="comms"></a>
 
 * **Media**
   * Audio and Video are streamed from Broadcast to VR PCs using RTP over the network broadcast address
@@ -95,7 +112,7 @@ Manual start:
   * Additionally the VR PCs periodically send a `/heartbeat` message back to Broadcast on port 9000 to give their status
 
 
-## Keyboard Controls
+## Keyboard Controls <a name="keyboard"></a>
 
 **Broadcast**
 * `r` send OSC `/recenter` to VR PCs
@@ -109,7 +126,7 @@ Manual start:
 * `f` fadein / fadeout
 
 
-## Development Install Guide
+## Development Install Guide <a name="dev_install"></a>
 
 **Gstreamer**
 
@@ -142,39 +159,41 @@ Required for both apps
 
 **elgato**
 
-1. Download and install 4K Capture Utility for Windows from [this page](https://www.elgato.com/en/gaming/downloads)
+1. Install 4K Capture Utility version `1.6.3.4272` [source](https://www.elgato.com/en/gaming/downloads)
 2. Go with defaults and click `Finish`
 
 
 #### TOTM_VR
 
-**UNITY**
+**Unity**
 1. Download and install from https://store.unity.com/download?ref=personal
 2. Click the accept terms box to download unity hub
 3. install to default location
 4. click finish to open Unity Hub
 5. Dismiss warnings about license
 6. Go to main menu and click Installs
-7. choose 2019.4.27f1 (64-bit) [the latest LTR as of 07/09/2021] and go with defaults
+7. choose `2021.3.1f1` (64-bit) and go with defaults
 8. Before you can use it, you need to log in with a free personal Unity account
 
-**Oculus**
+**Meta Horizon Link**
 
-1. Download and install from https://www.oculus.com/setup/
+1. Download and install from https://www.meta.com/quest/setup/
 2. install to default location
-3. connect oculus to DisplayPort to port in rear
-4. Connect an unpowered USB hub to one of the high-speed USB ports and plug the oculus into it
-  * **IMPORTANT** Do not skip the hub part. Otherwise multiple unplug/replugs are often necessary to get the headset working
-  * The exact USB port on the PC does not seem important, as long as it's red (USB 3.0)
-6. Sign in to oculus
-7. Start setup (requires one oculus controller)
-8. Install firmware update(s) (replugging headset may be needed after an update)
-9. Put headset on and follow instructions to set floor level and define ‘play area’
+
+
+**Headset**
+1. Connect the headset to one of the red USB 3.0 ports if using charging cable, or the front USB-C port if using official Link Cable
+2. Click the blue banner to set up headset
+3. Go through the first-time setup 
+4. Install firmware update(s) (replugging headset may be needed after an update)
+
+**note**: For the MSI Trident PC, connect the headset Link cable to the unpowered USB hub, which should be connected to
+any of the red USB 3.0 ports.
 
 
 ## Parameters / Configuration
 
-Things we will likely want to alter or tweak in the future
+Things we may want to alter or tweak in the future
 
 * **Gstreamer broadcast pipeline**
   * The gstreamer pipeline is parameterized in [config.json](TOTM_BROADCAST/bin/data/config.json)
@@ -228,6 +247,31 @@ Things we will likely want to alter or tweak in the future
   * Fisheye K value
   * Periphery mask width / height
 
+## Issues <a name="issues"></a>
+
+### Link Auto-Connect
+The Link Auto-Connect option in the Quest Developer settings is supposed to make the headset connect to PCVR over the link cable automatically. A Meta update in January 2026 seems to have broken this feature and no workaround has been found as of Feb 23. The result of this is that the startup automation is not working. The PC starts up and launches Meta and TOTM_VR, but the headset waits for user interaction to start the Link connection. This results in the TOTM_VR app being backgrounded and a re-launch of TOTM_VR is required to actually run it in the headset.
+
+I tried enabling Android debug mode and using `adb` to force-start PCVR on the headset
+
+```
+> adb shell am start -S com.oculus.xrstreamingclient/.MainActivity
+```
+
+That command [apparently worked](https://communityforums.atmeta.com/discussions/dev-unity/quest-link-automation/1005769) for the Quest 2, but did not when I tried it with Quest 3. A script using different `adb` commands may still work to solve this issue, but note that using adb requires activating USB debugging on every headset AND going through a one-time prompt sequence to allow commands from an individual PC. Meaning each headset would be tightly paired to its PC and this permissions process would be required any time a headset is swapped.
+
+There is a [3rd party tool](https://varset.itch.io/quest-adb-scripts) that claims to be able to start Oculus Link from the PC side, based on adb. I have not tested this and the source code is not available to inspect.
+
+Another possible approach is to add some logic on the Unity app side to check for Link connection on startup and exit if it's not active after a certain time. Pm2 will restart it automatically in a loop if necessary until someone enables the link connection from the headset side, which should only be required once at the start of the day. 
+
+### Charging Cable Liquid or Debris Warning
+This issue only appears when using the charging cables and based on some searches, seems to be related to fluctuating voltage levels over the course of the battery charging process. ie once the charge crosses a certain threshold, say 80%, the cable reduces voltage, which triggers the warning on the headset. This was apparently not a problem on the Quest 2 headset.
+Some users have fixed this by using a port on the PC instead of the wall wart for charging, or using an adapter.
+
+
+### Asus PC Gstreamer Nvidia Error with Broadcast App
+There is a gstreamer error in the TOTM BROADCAST app when we try to use the Asus PC as the streamer. The error message comes from the Nvidia H265 encoder element with a message that the "profile is unavailable". My guess is that this is a software version issue and that a newer gstreamer version is required to use the GPU-accelerated video encoding. If we do update gstreamer on this PC to use it as the streamer, we should consider upgrading gstreamer across all PCs to match versions.
+
 
 
 ## Misc Links
@@ -246,5 +290,4 @@ Things we will likely want to alter or tweak in the future
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: September 22, 2022
-
+Last updated: February 23, 2026
