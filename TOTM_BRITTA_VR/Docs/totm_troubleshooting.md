@@ -1,5 +1,7 @@
 # TOTM TROUBLESHOOTING
 
+**NOTE:** This document was made during the 2022 show and some of the VR items below are outdated
+
 First, read through the [VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
 Then check the Cable Connections and Startup sections of the readme.
 

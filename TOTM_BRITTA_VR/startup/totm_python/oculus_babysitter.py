@@ -1,3 +1,9 @@
+"""
+Note: this script was used for the 2022 run of the show with the Rift-S headset to fix a persistent issue
+where the guardian boundary setup process would start abruptly during show runs and exit our app.
+It is not required for the Quest headsets.
+"""
+
 from os import getlogin, listdir
 from os.path import isfile, join, getctime
 import time
