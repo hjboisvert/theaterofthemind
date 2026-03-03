@@ -1,7 +1,9 @@
 #pragma once
 #include "ofMain.h"
 #include "ofGstUtils.h"
-class Pipeline : public ofGstAppSink {
+#include <gst/app/gstappsink.h>
+
+class Pipeline {
 public:
 	Pipeline(int previewWidth, int previewHeight);
 	~Pipeline();
@@ -16,17 +18,17 @@ public:
 	bool isClosing;
 
 private:
-	GstElement * buildPipeline(string name);
+	// Static GStreamer callbacks (raw API, bypasses ofGstUtils)
+	static GstFlowReturn sOnNewPreroll(GstAppSink* sink, gpointer userData);
+	static GstFlowReturn sOnNewSample(GstAppSink* sink, gpointer userData);
+	static gboolean sOnBusMessage(GstBus* bus, GstMessage* msg, gpointer userData);
 
-	// ofGstAppSink overrides
-	bool on_message(GstMessage* msg);
-	GstFlowReturn on_preroll(shared_ptr<GstSample> buffer);
-	GstFlowReturn on_buffer(shared_ptr<GstSample> buffer);
+	bool onBusMessage(GstMessage* msg);
 
-	ofGstUtils gstUtils;
-
-	GstElement *pipeline;
-	GstSample *frontSample, *backSample;
+	GstElement* pipeline;
+	GstElement* appsinkElement;
+	GstSample* frontSample;
+	GstSample* backSample;
 	GstMapInfo mapinfo;
 	ofMutex mutex;
 	ofPixels pixels;
@@ -34,6 +36,5 @@ private:
 
 	string pipelineString;
 	bool newFrame;
-
 	string errorMessage;
 };

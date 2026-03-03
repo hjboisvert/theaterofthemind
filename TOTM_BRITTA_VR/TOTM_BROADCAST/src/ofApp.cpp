@@ -119,7 +119,7 @@ string ofApp::buildPipelineString(string pipelineConfigName) {
 			pipelineString.replace(pipelineString.find("<audio_device_id>"), string("<audio_device_id>").length(), "device=\\\"" + audioDeviceId + "\\\"");
 
 			if (pipeConfig["show_preview"].get<bool>()) {
-				pipelineString += "glcolorscale ! videoconvert ! videoscale !  video/x-raw(memory:GLMemory), format=RGBA, width=" +
+				pipelineString += "videoconvert ! videoscale ! video/x-raw, format=RGBA, width=" +
 					to_string(previewWidth) + ", height=" + to_string(previewHeight) + ",framerate=(fraction)30/1 ! appsink name=videoSink sync=false";
 			}
         }
