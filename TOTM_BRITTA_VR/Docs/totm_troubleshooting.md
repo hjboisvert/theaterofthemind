@@ -1,6 +1,6 @@
 # TOTM TROUBLESHOOTING
 
-**NOTE:** This document was made during the 2022 show and some of the VR items below are outdated
+**NOTE:** This document was originally made during the 2022 show. The audio device name in the VR audio issue below is outdated (Quest 3 will show different device names — look for a device containing "Quest" or "Meta"). All other items are still applicable.
 
 First, read through the [VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
 Then check the Cable Connections and Startup sections of the readme.
@@ -23,7 +23,7 @@ Then check the Cable Connections and Startup sections of the readme.
 
 <br>
 
-* TOTM_VR sometimes does not launch automatically when the pc starts, even with a shortcut to STARTUP.BAT in the windows startup folder.
+* TOTM_VR sometimes does not launch automatically when the pc starts, even with a shortcut to STARTUP_v2.BAT in the windows startup folder.
 
     * **Cause**: This is an occasional issue with the Oculus software that causes it to freeze sometimes when the PC boots with the headset proximity sensor covered. We need to have that sensor covered so that the headset wakes on motion instead of waiting for someone to wear it.
 
@@ -52,7 +52,7 @@ to be repeated.
         If broadcast PC looks OK, check that the VR PC is on the right network and
 		* WIFI is turned off
 		* The wired LAN connection is using the “private”, or trusted, profile
-        * Check that gstreamer bin folder is in the system PATH env variable (see [PC setup guide](./totm_pc_setup.md))
+        * Check that gstreamer bin folder is in the system PATH env variable (see [PC setup guide](./totm_pc_setup_2026.md))
 
         If none of the above fixes it, close TOTM_VR and launch it         manually to see if a Windows Defender window appears.
 
@@ -101,7 +101,7 @@ to be repeated.
 
     * **Cause**: Could not start the audio stream
 
-    * **Solution**: Make sure the audio source is turned on and plugged in to the Line-in port on the PC
+    * **Solution**: Make sure the Focusrite USB audio interface is powered on and plugged in to a USB port on the PC
 
 <br>
 
@@ -133,6 +133,6 @@ to be repeated.
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
 
-Last updated: August 17, 2022
+Last updated: March 23, 2026
 
 

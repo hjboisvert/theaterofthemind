@@ -1,8 +1,9 @@
 # TOTM PCs Initial Setup
 
-TODO: update gdrive link
 Get `TOTM.zip` from [Drive](https://drive.google.com/file/d/1zx1ros6qwOpIORFpEIfGmejEoZ7VTA0N/view?usp=sharing) and unzip on Desktop.
-This folder contains the latest builds of TOTM_VR and TOTM_BROADCAST as well as all installers referenced below.
+This folder contains the latest build of TOTM_VR and all installers referenced below.
+
+For the TOTM_BROADCAST application running on the 2026 ASUS GStreamer Server, download separately from [this link](https://drive.google.com/file/d/1pKM-bmghbazEY90iD-hsFwQg200iCANZ/view?usp=drive_link).
 
 
 ## Contents
@@ -70,7 +71,7 @@ There are 2 installers:
 gstreamer-1.0-mingw-x86_64-1.18.6.msi
 gstreamer-1.0-devel-mingw-x86_64-1.18.6.msi
 
-Install both, making sure to select **COMPLETE** install when prompted.
+Install both, making sure to select **COMPLETE** install when prompted. Leave the default install location as `C:\`.
 
 ##### Update system path
 Add gstreamer binary folder path to System Environment Variables:
@@ -127,7 +128,22 @@ Usually, the folder name will be the date of the build (for example: 2_28_2022),
 ---
 
 
-## BROADCAST PC<a name="broadcast_pc"></a>
+## BROADCAST PC<a name=”broadcast_pc”></a>
+
+### GStreamer
+The Broadcast PC requires GStreamer v1.24+ (newer than the VR PCs). Download the MinGW 64-bit runtime and development installers from the [download page](https://gstreamer.freedesktop.org/download/).
+
+Install both, making sure to select **COMPLETE** install when prompted. Leave the default install location as `C:\`.
+
+Then follow the same PATH and environment variable steps as in the Asus PCs section above — the install path is `C:\gstreamer\1.0\mingw_x86_64\` (MinGW variant). **Note**: if upgrading from a previous install, the old path was `C:\gstreamer\1.0\x86_64\` (MSVC variant) — remove that from PATH and replace with the MinGW path.
+
+**Note**: The broadcast pipelines use `nvcudah265enc` for NVIDIA GPU-accelerated H.265 encoding. This requires a compatible NVIDIA GPU and driver.
+
+### Audio Device
+The pipeline is configured for a **Focusrite USB audio interface** (`Analogue 1 + 2 (Focusrite USB Audio)`). If a different audio device is used, update `device_display_name` in `bin/data/config.json`.
+
+### Camera Indices
+Camera indices in `config.json` are set to `left_camera_index: 0`, `right_camera_index: 1`. If the left/right streams appear swapped, swap these values.
 
 ### TOTM_BROADCAST
 In the `TOTM\BROADCAST\bin` folder, right click on TOTM_BROADCAST.exe then “Create Shortcut”
