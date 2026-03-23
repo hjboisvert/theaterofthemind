@@ -1,23 +1,22 @@
 # TOTM
 Receiver and sender for Theater of the Mind VR experience
 
-The TOTM.zip file, containing the latest builds of the VR and BROADCAST apps as well as the installers for all dependencies,
+The TOTM.zip file, containing the 2022 builds of the VR and BROADCAST apps as well as the installers for all dependencies,
 downloaded using [this link](https://drive.google.com/drive/folders/1mWl5btYyHglABdeF879kGxaHHOfXyhcN?usp=drive_link).
 This GDrive folder is owned by the `totmarbutus@gmail.com` account.
+
+For the Open Frameworks application running on the 2026 ASUS GStreamer Server, use [this link](https://drive.google.com/file/d/1pKM-bmghbazEY90iD-hsFwQg200iCANZ/view?usp=drive_link).
 
 For on-location (not dev) installation and setup of the VR and BROADCAST PCs, see [this doc](Docs/totm_pc_setup_2026.md) then follow the cable connections and startup sections below.
 
 For headset setup, see [this doc](Docs/quest3_setup.md)
 
-For usage and common issues, see
-[VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
+For usage and common issues, see [BRITTA VR Protocols](https://docs.google.com/document/d/1Tn5Itsy7lwYgeFBuHV1BBWYDviMvDHBZQggX254Aaak/edit?usp=sharing). 
 
+The older document contains overlapping information and could be useful as reference: [VR Procedures](https://docs.google.com/document/d/1x5ep65TPM-KHYitz88LDsFJRX1JCE8SJcl05volPcPo/edit?usp=sharing)
 Note: The above document was prepared for the 2022 run of the show and that doc should be updated based on onsite testing and rehearsals. The headset wake up procedure during room reset in the doc above is not required with the new Quest headsets
 
 For troubleshooting, see [this doc](Docs/totm_troubleshooting.md)
-
-The VR app runs on both the MSI Trident PCs and the Asus ROGs
-The Broadcast app **only** works on the MSI Trident PCs (see Issues section below)
 
 Both apps were originally developed and tested on Windows 10 version 21H2 using same PC model \[[Link](https://www.msi.com/Desktop/Trident-3)\] for both apps.
 Detailed system info for the MSI Trident PCs can be found [here](Docs/systeminfo/)
@@ -44,8 +43,7 @@ Unity VR app that displays stereoscopic dome projection from two live wide-angle
  * Windows 11
  * [Unity 2021.3.1f1](https://store.unity.com/download?ref=personal)
  * [Meta Horizon Link Desktop App v83.0.0.333.349](https://www.meta.com/help/quest/1517439565442928/)
- * [Gstreamer v1.18.4](https://gstreamer.freedesktop.org/download/) (runtime and development files)
-   * Note: if the google drive link above can't be accessed, you will need to download the closest version `v1.18.6` instead
+ * [Gstreamer v1.18.6](https://gstreamer.freedesktop.org/data/pkg/windows/1.18.6/mingw/) (runtime and development files)
  * [Unity Gstreamer Plugin, commit 37845d](https://github.com/mrayy/mrayGStreamerUnity/tree/37845d2bc874758f33350242a9c6755488ccc1d7)
  * [OSCJack for Unity v0.1.4](https://github.com/keijiro/OscJack/tree/v0.1.4)
  * [Unity Oculus Integration Package v39.0](https://assetstore.unity.com/packages/tools/integration/oculus-integration-82022#releases)
@@ -57,13 +55,16 @@ openframeworks app that receives live video from two cameras wired to the PC, li
 #### Hardware
  * 2x [Kodak Pixpro SP360 4K](https://kodakpixpro.com/cameras/360-vr/sp360-4k)
  * 2x [Elgato Cam Link 4K](https://www.elgato.com/en/gaming/cam-link-4k)
+ * [Focusrite Scarlett 2i2](https://us.focusrite.com/products/scarlett-2i2) (USB audio interface)
 
 #### Software
- * Windows 10 version 21H2
+ * Windows 11
  * [Openframeworks v0.10.1](https://openframeworks.cc/download/) for Visual Studio. (note: v0.11.0 has also been tested)
    * with [ofxGStreamer addon, commit fb1109](https://github.com/arturoc/ofxGStreamer/tree/fb1109f995168bcb1d673724d97ba7931772945d)
  * [Visual Studio Community 2019](https://visualstudio.microsoft.com/vs/older-downloads/)
    * Openframeworks addon
+ * [GStreamer v1.24+](https://gstreamer.freedesktop.org/download/) (runtime and development files, MinGW 64-bit)
+   * Uses `nvcudah265enc` for NVIDIA GPU-accelerated H.265 encoding (replaces deprecated `nvh265enc`)
 
 ## Cable Connections <a name="cables"></a>
 
@@ -72,7 +73,7 @@ openframeworks app that receives live video from two cameras wired to the PC, li
 * Plug camera HDMIs into elgatos
 * Plug camera USB power cables into a powered USB hub
 * Plug camera fans into a powered USB hub (can be shared with cams)
-* Connect audio source to Line-in port on rear of PC
+* Connect Focusrite USB audio interface to a USB port on the PC
 * Connect PC to router with ethernet cable
 
 **VR**
@@ -130,9 +131,13 @@ Manual start:
 
 **Gstreamer**
 
-Required for both apps
+Required for both apps. Note: versions differ between apps:
+- **TOTM_VR** (VR PCs): use v1.18.6 — [direct link](https://gstreamer.freedesktop.org/data/pkg/windows/1.18.6/mingw/)
+- **TOTM_BROADCAST** (Broadcast/streaming server): use v1.24+ — [download page](https://gstreamer.freedesktop.org/download/)
 
-1. Go to the [download page](https://gstreamer.freedesktop.org/download/) and download both the runtime and development installers under **MinGW 64-bit** (MSVC VERSIONS WILL NOT WORK)
+For each, download both the runtime and development installers under **MinGW 64-bit** (MSVC VERSIONS WILL NOT WORK)
+
+1. Go to the appropriate download link above and download both the runtime and development installers
 2. Install each one, making sure to select **COMPLETE** install when prompted. Leave the default install location as `C:\`
 3. Add gstreamer binary folder path to System Environment Variables:
 	1. Open Settings from the Start menu and type 'environment' in the search area
@@ -198,7 +203,7 @@ Things we may want to alter or tweak in the future
 * **Gstreamer broadcast pipeline**
   * The gstreamer pipeline is parameterized in [config.json](TOTM_BROADCAST/bin/data/config.json)
   * The main option string we may want to change is `video_encoding`.
-    * More on video encoding options in [this doc](Docs/h264_encoding.md) (Note: we are using H265 now)
+    * The current encoder is `nvcudah265enc` (NVIDIA GPU-accelerated H.265). The key parameters are `preset`, `tune`, `rate-control`, and `bitrate`.
 * **Camera Height**
   * Raising or lowering the virtual camera position relative to the center point of the spheres creates perception of growing and shrinking. Right now it it set below center to make viewer feel smaller
 * **Fisheye K Parameter**
@@ -250,27 +255,13 @@ Things we may want to alter or tweak in the future
 ## Issues <a name="issues"></a>
 
 ### Link Auto-Connect
-The Link Auto-Connect option in the Quest Developer settings is supposed to make the headset connect to PCVR over the link cable automatically. A Meta update in January 2026 seems to have broken this feature and no workaround has been found as of Feb 23. The result of this is that the startup automation is not working. The PC starts up and launches Meta and TOTM_VR, but the headset waits for user interaction to start the Link connection. This results in the TOTM_VR app being backgrounded and a re-launch of TOTM_VR is required to actually run it in the headset.
-
-I tried enabling Android debug mode and using `adb` to force-start PCVR on the headset
-
-```
-> adb shell am start -S com.oculus.xrstreamingclient/.MainActivity
-```
-
-That command [apparently worked](https://communityforums.atmeta.com/discussions/dev-unity/quest-link-automation/1005769) for the Quest 2, but did not when I tried it with Quest 3. A script using different `adb` commands may still work to solve this issue, but note that using adb requires activating USB debugging on every headset AND going through a one-time prompt sequence to allow commands from an individual PC. Meaning each headset would be tightly paired to its PC and this permissions process would be required any time a headset is swapped.
-
-There is a [3rd party tool](https://varset.itch.io/quest-adb-scripts) that claims to be able to start Oculus Link from the PC side, based on adb. I have not tested this and the source code is not available to inspect.
-
-Another possible approach is to add some logic on the Unity app side to check for Link connection on startup and exit if it's not active after a certain time. Pm2 will restart it automatically in a loop if necessary until someone enables the link connection from the headset side, which should only be required once at the start of the day. 
+There was an issue where Link Auto-Connect was unreliable. It was fixed in this commit: fa2f867bb8df5c19a224a1e68f402de09d1b5fa2, which ensured that the PC connected to the headset waited for Oculus Link to go into Dash before launching the VR app. Additionally, Link Auto-Connect was enabled in the Quest Link Settings and "Suggest to Connect" was disabled.
 
 ### Charging Cable Liquid or Debris Warning
-This issue only appears when using the charging cables and based on some searches, seems to be related to fluctuating voltage levels over the course of the battery charging process. ie once the charge crosses a certain threshold, say 80%, the cable reduces voltage, which triggers the warning on the headset. This was apparently not a problem on the Quest 2 headset.
-Some users have fixed this by using a port on the PC instead of the wall wart for charging, or using an adapter.
+This issue was fixed through upgrading the Quest software to v85, and a new protocol where headsets are not unplugged overnight and re-plugged in the mornings.
 
-
-### Asus PC Gstreamer Nvidia Error with Broadcast App
-There is a gstreamer error in the TOTM BROADCAST app when we try to use the Asus PC as the streamer. The error message comes from the Nvidia H265 encoder element with a message that the "profile is unavailable". My guess is that this is a software version issue and that a newer gstreamer version is required to use the GPU-accelerated video encoding. If we do update gstreamer on this PC to use it as the streamer, we should consider upgrading gstreamer across all PCs to match versions.
+### Asus Streaming PC Gstreamer Upgrade
+The server was upgraded to use Gstreamer 1.24+ in 2026 to squash an error related to the deprecated `nvh265enc`. We should consider upgrading gstreamer across all PCs to match versions.
 
 
 
@@ -289,5 +280,6 @@ There is a gstreamer error in the TOTM BROADCAST app when we try to use the Asus
 ---
 
 Document created by Patrick Rummage for [Brooklyn Research](https://brooklynresearch.com)
+Updated by Prashast Thapan [Pariah Interactive](https://pariah.in) for the Chicago opening
 
-Last updated: February 23, 2026
+Last updated: March 16, 2026

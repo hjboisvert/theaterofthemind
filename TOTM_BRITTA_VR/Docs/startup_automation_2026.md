@@ -7,16 +7,16 @@ Startup script: Desktop\TOTM\VR\STARTUP_v2.BAT
 pm2 config file: Desktop\TOTM\VR\pm2.config.js
 
 **startup folder**
-Shortcuts to both the oculus client and the startup script are placed in the 'startup' folder. Access this folder by pressing WIN+r on the keyboard and typing 'shell:startup' in the text box that appears, then click 'run'.
+Shortcuts to both Meta Horizon Link and the startup script are placed in the 'startup' folder. Access this folder by pressing WIN+r on the keyboard and typing 'shell:startup' in the text box that appears, then click 'run'.
 If you are using remote desktop and can't use the WIN key, you can also open the Run dialog via the Task Manager with File -> Run New Task
 
 **Startup sequence:**
 1. Password auth is diabled, so user AsusVR\<xx\> logs in automatically (where xx is one of 01 - 16)
 2. Oculus software starts
 3. STARTUP_v2.BAT starts
-	1. 45 second delay to allow oculus software to find & initialize heasdset
-	2. Script launches britta app indirectly by launching pm2 with config file pm2.config.js. This config file has the path to the Britta app exe.
-    3. pm2 launches python script in VR\totm_python that watches for desktop play area prompt and clicks continue button.
+	1. Script polls every 5 seconds for the `OculusDash` process, waiting until Oculus Link is fully established and Quest is in Dash before proceeding
+	2. Once Link is ready, script waits an additional 15 seconds for Dash to fully initialize
+	3. Script launches britta app indirectly by launching pm2 with config file pm2.config.js. This config file has the path to the Britta app exe.
 
 To stop the Britta app and not have pm2 re-launch it:
 run `pm2 stop 0` in any cmd window
